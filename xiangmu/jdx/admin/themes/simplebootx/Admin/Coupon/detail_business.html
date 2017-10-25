@@ -1,0 +1,205 @@
+<admintpl file="header" />
+
+</head>
+
+<body>
+
+<div class="wrap js-check-wrap" id="app">
+
+    <ul class="nav nav-tabs">
+
+        <li ><a href="{:U('coupon_business')}">商家链接列表</a></li>
+        <li class="active"><a href="javascript:;">详情</a></li>
+
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+
+        商家名称：{{info.name}}
+        <br />
+        链接地址：http://wx.cutman.cn/Coupon/business/bcode/{{info.code}}.html
+        <br />
+        <br />
+        <input type="button" class="btn btn-primary" @click="export()" value="导出">
+    </form>
+
+    <table class="table table-hover table-bordered table-list">
+
+        <thead>
+
+        <tr>
+
+            <th>序号</th>
+
+            <th>会员头像</th>
+
+            <th>微信昵称</th>
+
+            <th>手机号码</th>
+
+            <th>金额</th>
+
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr v-for="item in list">
+
+            <td>{{item.id}}</td>
+
+            <td><img src="{{item.headimgurl}}" width="80" height="80" /></td>
+
+            <td>{{item.nickname}}</td>
+
+            <td>{{item.phone}}</td>
+
+            <td>{{item.money}}</td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+
+</div>
+
+<script src="__PUBLIC__/js/common.js"></script>
+
+<script src="__PUBLIC__/js/vue.js"></script>
+
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+
+<script type="text/javascript">
+    function sendPost(URL, PARAMS) {
+
+        var temp = document.createElement("form");
+
+        temp.target="_blank"
+
+        temp.action = URL;
+
+        temp.method = "post";
+
+        temp.style.display = "none";
+
+        for (var x in PARAMS) {
+
+            var opt = document.createElement("textarea");
+
+            opt.name = x;
+
+            opt.value = PARAMS[x];
+
+            // alert(opt.name)
+
+            temp.appendChild(opt);
+
+        }
+
+        document.body.appendChild(temp);
+
+        temp.submit();
+
+        return temp;
+
+    }
+    Wind.use("artDialog", function () {});
+
+    var app = new Vue({
+
+        el:"#app",
+
+        data:{
+
+            list:[],
+            info:[],
+            searchCon:{p:1,id:{$id}},
+
+            pagerConf:{
+
+                totalPage : 0,
+
+                currPage : 1,
+
+                prevShow : 3,
+
+                nextShow : 3,
+
+                pageRange:[]
+
+            }
+
+        },
+
+        watch:{
+
+            'pagerConf.currPage':function () {
+
+                this.mySearch(false);
+
+            }
+
+        },
+
+        methods:{
+            export:function () {
+                var data = this.searchCon;
+                sendPost("/Admin/Coupon/exportDetail",data);
+            },
+            mySearch: function (search) {
+
+                var data = this.searchCon;
+
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+
+                $.ajax({
+
+                    url:"{:U('detail_business')}",
+
+                    data:data,
+
+                    type:"POST",
+
+                    dataType:"json",
+
+                    success: function (res) {
+
+                        if (res.status == 1) {
+
+                            app.list = res.list;
+                            app.info = res.info;
+                            app.pagerConf.totalPage = res.totalPage;
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+
+                    }
+
+                })
+
+            }
+
+        },
+
+        created: function () {
+
+            this.mySearch(true);
+
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>

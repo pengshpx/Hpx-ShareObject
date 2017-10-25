@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html class="back-black">
+<head>
+	<meta charset="utf-8">
+	<title>CUTMAN男士理发</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+	<style type="text/css">
+		.yuyue{
+			max-width: 65%;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+	</style>
+</head>
+<body class="back-black" id="app">
+	<div class="q-header q-header-color1">
+		<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+		<span class="q-title">确认预约</span>
+	</div>
+	<section class="bod-pad">
+		<div class="hairdresser back-222 pad15 b-b-333 m-b-10">
+			<div class="left_mid15" style="background-image: url({$store_barber['headimgurl']?$store_barber['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>});">
+			</div>
+			<div class="person_con">
+				<h4 class="wid100 color-gold font14 hgt35 l-h-35">{$store_barber.name}</h4>
+				<div class="set_stars"><input type="hidden" value="{$store_barber.stars}"></div>
+				<p>{$store_barber.service_num}单</p>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="item_list p_both15 back-222 b-b-333">
+			<table width="100%">
+				<tr>
+					<th><img src="__TMPL__Public/img/tel3.png" /> 预约电话</th>
+					<td  style="width: 60%;">
+						<input class="font14" style="text-align: right;" maxlength="11" v-model="options.mobile" type="tel">
+					</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__Public/img/slice/xiaodian1.png" /> 店铺名称</th>
+					<td>{$store_barber.store_name}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__Public/img/slice/position.png" /> 详细地址</th>
+					<td>{$store_barber.address}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__Public/img/slice/xin1.png" /> 服务类型</th>
+					<td>{$services.name}{$services.price}元</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__Public/img/slice/time1.png" /> 预约时间</th>
+					<td>{$service_time}</td>
+				</tr>
+			</table>
+		</div>
+		<div class=" hgt50 l-h-50 p_both15 text-center font13">
+			温馨提示：离预约开始时间少于12小时不支持退款
+		</div>
+	</section>
+	<section>
+		<div class="bottom p_both10 footer_back">
+			<div class="yuyue left wid70 color-gold inline_div">
+				{$services.price}元<i class="color_fff m-l-5 color-fff">(会员价：{:sprintf('%.2f',($services['price']*0.85))}元)</i>
+			</div>
+			<button @click="orderDown" class="border-gold color-gold hgt40 l-h-40 p_both15 radius4 font16 right_mid" >支付预约</button>
+		</div>
+	</section>
+</body>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el: "#app",
+		data: {
+			options:{
+				barber_id:"{$store_barber.barber_id}",
+				service_id:"{$services.id}",
+				service_time:"{$service_time}",
+				mobile:"{$mobile}"
+			}
+		},
+		methods: {
+			orderDown: function () {
+				var reg = /^(1[3,4,5,7,8][0-9]\d{8})$/;
+				if (!reg.test(this.options.mobile)) {
+					layer.open({content:"手机号格式不正确",time:2,shadeClose:false});
+					return;
+				}
+				var data = this.options;
+				var loadingIndex = 0;
+				$.ajax({
+					url:"{:U('orderDown')}",
+					data:data,
+					type:"POST",
+					dataType:"json",
+					beforeSend: function () {
+						loadingIndex = layer.open({type:2,shadeClose:false});
+					},
+					success: function (res) {
+						layer.close(loadingIndex);
+						if (res.status == 0) {
+							if (typeof(res.info.url) != undefined) {
+								layer.open({content:res.info.msg,time:3,shadeClose:false});
+								setTimeout(function () {
+									location.href = res.info.url;
+								},2000);
+							}else {
+								layer.open({content:res.info,time:2,shadeClose:false});
+							}
+						}
+						if (res.status == 1) {
+							location.href = "{:U('goPay')}/orderId/"+res.info;
+						}
+					},
+					error: function () {
+						layer.close(loadingIndex);
+						layer.open({content:"请求失败，请重试",time:3});
+					}
+				})
+			}
+		}
+	});
+</script>
+<script type="text/javascript">
+	var img_url={filled:"__TMPL__Public/img/pingjia1.png",empty:"__TMPL__Public/img/pingjia2.png"};
+	set_stars($(".set_stars"),img_url,5,16,"show")
+</script>
+
+</html>

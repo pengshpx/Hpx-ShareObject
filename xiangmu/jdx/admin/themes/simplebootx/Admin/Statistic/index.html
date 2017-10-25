@@ -1,0 +1,116 @@
+<admintpl file="header"/>
+<style type="text/css">
+    .mgt-10 {
+        margin-bottom: 10px
+    }
+</style>
+<script src="__PUBLIC__/js/vue.js"></script>
+
+</head>
+<body>
+<div class="wrap" id="order-app">
+    <form class="well form-search form-inline">
+
+        <div class="mgt-10">
+            所属店铺：
+            <select v-model="search.store">
+                <option value="0" selected>全部</option>
+                <volist name="stores" id="store">
+                    <option value="{$store.id}">{$store.name}</option>
+                </volist>
+            </select>&nbsp;&nbsp;
+            预约理发师：
+            <input v-model="search.barber" maxlength="10" type="text" placeholder="理发师姓名">&nbsp;&nbsp;
+            预约时间：
+            <input type="text" name="start_time" class="js-datetime" v-model="search.start_time" value="" autocomplete="off" placeholder="开始时间">&nbsp;-
+            <input type="text" class="js-datetime" name="end_time" v-model="search.end_time" value="" autocomplete="off" placeholder="结束时间"> &nbsp;
+            <!--<a class="btn btn-default btn-small" @click="setToday">今天</a><a class="btn btn-default btn-small" @click="setThisWeek">近一周</a><a @click="setThisMonth" class="btn btn-default btn-small">本月</a>-->
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" class="btn btn-primary" @click="getData" value="查询">
+            <!--<input type="button" class="btn btn-success" @click="export" value="导出">-->
+        </div>
+    </form>
+    <div  class="container">
+        <div class="row">
+            <div class="span10">
+                <table class="table table-hover table-bordered table-list">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>已完成</th>
+                        <th>已失效</th>
+                        <th>未服务</th>
+                        <th>已关闭</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>总订单数：</td>
+                        <td>{{orderList.amount_2}}</td>
+                        <td>{{orderList.amount_3}}</td>
+                        <td>{{orderList.amount_1}}</td>
+                        <td>{{orderList.amount_0}}</td>
+                    </tr>
+                    <tr>
+                        <td>总金额：</td>
+                        <td>{{orderList.sumprice_2}}</td>
+                        <td>{{orderList.sumprice_3}}</td>
+                        <td>{{orderList.sumprice_1}}</td>
+                        <td>{{orderList.sumprice_0}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    Wind.use("artDialog", function () {
+    });
+    var demo = new Vue({
+        el: '#order-app',
+        data: {
+            titles:{},
+            orderList: null,
+            search: {store:'',barber:'',start_time: null, end_time: null},
+        },
+        methods: {
+            getData: function (from) {
+                $.getJSON("{:U('index')}", this.search, function (res) {
+                    if (res.status == 1) {
+                        demo.orderList = res.info;
+                        demo.titles = res.info[0];
+                    } else {
+                        alert(res.info);
+                    }
+                })
+            },
+        },
+        created: function () {
+            this.getData();
+        }
+    })
+
+    function sendPost(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.target="_blank"
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+</script>
+</body>
+</html>

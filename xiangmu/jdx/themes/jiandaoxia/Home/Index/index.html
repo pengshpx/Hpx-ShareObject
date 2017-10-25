@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <tc_include file="Public:header" />
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+</head>
+<body class="back-black">
+<header class="bgimg_mid header footer_back">
+    <a href="{:U('Index/selectLocation')}" class="fr_mid color-gold m-r-10 bgimg_left p-l-25"><if condition="$userLocation.city">{$userLocation.city}<else/>成都</if></a>
+</header>
+<section>
+    <div class="shop_list p-t-rem p-b-rem">
+        <ul>
+            <volist name="lists" id="store">
+                <li class="back-222 b-b-333 m-b-10">
+                    <a href="{:U('Store/index',array('id'=>$store['id']))}">
+                        <img src="{$store.pic}"/>
+                    </a>
+                    <div class="shop_con p_both15">
+                        <div class="shop_name ">
+                            <h4 class="inline_div wid90 color-fff font14">
+                                {$store.name}
+                            </h4>
+                            <a href="tel:{$store.tel}" class="fr_mid">
+                                <img src="__TMPL__/Public/img/tel1.png" />
+                            </a>
+                        </div>
+                        <div class="address_con l-h-25">
+                            <h5 class="color-gray font14">{$store.open_time}-{$store.close_time}</h5>
+                            <p>{$store.address}</p>
+
+                        </div>
+                    </div>
+                </li>
+            </volist>
+
+        </ul>
+    </div>
+</section>
+<tc_include file="Public:footer" />
+
+</body>
+<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+<script src="http://apps.bdimg.com/libs/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+<if condition="$isLocate eq 0">
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script>
+        wx.config({
+            debug: true,
+            appId: "{$sign.appId}",
+            timestamp: "{$sign.timestamp}",
+            nonceStr: "{$sign.nonceStr}",
+            signature: "{$sign.signature}",
+            jsApiList: ['getLocation']
+        });
+        wx.ready(function () {
+            wx.getLocation({
+                type: 'wgs84',
+                success: function (res) {
+                    var latitude = res.latitude;
+                    var longitude = res.longitude;
+                    $.ajax({
+                        url:"{:U('location')}",
+                        data:{lat:latitude,lng:longitude},
+                        success:function (res) {
+                            if(res.status==1){
+                                location.reload();
+                            }
+                        }
+                    })
+                },
+                cancel:function () {
+                    $.ajax({
+                        url:"{:U('location')}",
+                        data:{lat:0,lng:0},
+                        success:function (res) {
+                            if(res.status==1){
+                                location.reload();
+                            }
+                        }
+                    })
+                }
+            });
+        })
+        wx.error(function(res){
+
+        });
+    </script>
+</if>
+
+</html>

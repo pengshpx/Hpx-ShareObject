@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html style="background-color: #222222">
+<head lang="en">
+    <meta charset="utf-8">
+    <tc_include file="Public:header" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style2.css" />
+    <link rel="stylesheet" href="__TMPL__Public/css/libaos.css"/>
+    <script src="__TMPL__Public/script/common.js"></script>
+    <style>
+        html{
+            position: relative;
+        }
+        .pao{
+            position: absolute;
+            width: 3rem;
+            height: 0.937rem;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transform: translateX(-50%);
+            padding: 0 10px;
+            margin: 0.3rem 0 0;
+        }
+        .erweimaword{
+            position: absolute;
+            left: 50%;
+            -webkit-transform: translateX(-50%);
+            -moz-transform: translateX(-50%);
+            -ms-transform: translateX(-50%);
+            -o-transform: translateX(-50%);
+            transform: translateX(-50%);
+            color: white;
+            z-index: 5000;
+            top: 500px;
+            display: inline-block;
+            width: 6.71rem;
+            line-height: 20px;
+            font-size: 18px;
+            text-align: center;
+        }
+    </style>
+
+</head>
+
+<body style="background-color: #222222">
+
+<div class="headHouse">
+    <div class="wordBox">
+        <h3 >恭喜您获得{$money|intval}元新用户理发券</h3>
+        <span style="color:#f3a114">请输入您的手机号码领取，并在微信里关注"CUTMAN男士理发"，在【我的/优惠码】栏目可以看到，在下单结算时可直接使用。</span> </div>
+    <div style="clear: both"></div>
+</div>
+
+<!--红包区-->
+<div class="redHouse">
+    <div class="redBox redBox2">
+
+        <div class="inBox inBox2">
+            <div class="f1">
+                <div class="libaoBox">
+                    <div class="libaoBoxLeft">理发券</div>
+
+                    <div class="libaoBoxRight">
+                        <span style='font-size: 20px'>&yen;</span><span>{$money}</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="haoma">优惠券已放入账户 <span>{$mobile}</span></div>
+            <a href="#" id="guanzhu" class="guanzhujiandaoxia">关注CUTMAN男士理发</a>
+        </div>
+
+        <p class="howToUse"><a href="javascript:void (0)" style="display: none">如何使用优惠券</a></p>
+
+        <!--炮灰-->
+        <div class="paohui"></div>
+
+        <!--红色炮灰-->
+        <div class="paohui2"><div class="pao"></div></div>
+        <!--二维码黑球-->
+        <div class="erweimaHouse">
+            <div class="erweima"><img src="__TMPL__Public/img/erweiWorld.jpg" style="display: block;width: 100%;height: 100%" alt=""/></div>
+        </div>
+        <img src="__TMPL__Public/img/sigebi.png" class="sigebi" alt=""/>
+        <img src="__TMPL__Public/img/yigevbi.png" class="yigebi" alt=""/>
+    </div>
+</div>
+<img src="__TMPL__Public/img/bangebi.png" class="bangebi" alt=""/>
+<div class="mengbanBoss">
+    <img src="__TMPL__Public/img/erweiWorld.jpg" class="bigBoss" alt="gg"/>
+    <p class="erweimaword" style="display: none">请长按关注二维码</p>
+</div>
+<script>
+//    $(document).ready(function(){
+////        debugger;
+//        alert('s');
+//
+//        var topImg = $(".inBox2").eq(0);
+//        function init(){
+//            debugger;
+//            var someTransfram = setTimeout(function(){
+//                topImg.css({"top":"0px"})
+//            },450)
+//            $(".mengbanBoss").eq(0).hide();
+//        }
+//        init();
+var topImg = $(".inBox2").eq(0);
+       setTimeout(function(){
+            topImg.css({"top":"0px"});
+
+           $(".pao").click(function(){
+               $(".mengbanBoss").show()
+           })
+       },450);
+$(".mengbanBoss").hide();
+
+$(".mengbanBoss").click(function(){$(".mengbanBoss").hide();});
+
+$(".erweima").click(function(){$(".mengbanBoss").show();});
+
+$(".guanzhujiandaoxia").click(function(){$(".mengbanBoss").show();});
+
+
+</script>
+</body>
+</html>
+

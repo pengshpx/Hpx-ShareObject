@@ -1,0 +1,140 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">会员列表</a></li>
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+        昵称：
+        <input type="text" class="input" v-model="searchCon.nickname" placeholder="昵称">
+        手机号：
+        <input type="number" v-model="searchCon.mobile" class="input" placeholder="手机号">
+        状态：
+        <select v-model="searchCon.status">
+            <option value="" selected>请选择</option>
+            <option v-for="(key,val) in status" :value="key">{{val}}</option>
+        </select>
+        <input type="button" class="btn btn-primary" @click="mySearch(true)" value="搜索">
+        <input type="button" class="btn btn-success" @click="export" value="导出">
+    </form>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>昵称</th>
+            <th>注册时间</th>
+            <th>手机号</th>
+            <th>余额</th>
+            <th>状态</th>
+            <th align="center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in list">
+            <td>{{item.nickname}}</td>
+            <td>{{item.create_time}}</td>
+            <td>{{item.mobile}}</td>
+            <td>{{item.money}}</td>
+            <td>{{status[item.status]}}</td>
+            <td align="center">
+                <a v-if="item.status==0" @click="openUser(item.member_id)" class="btn btn-small btn-primary">启用用户</a>
+                <a v-else @click="disableUser(item.member_id)" class="btn btn-small btn-danger">禁用用户</a>
+                <a class="btn btn-small btn-info" href="{:U('balance')}/member_id/{{item.member_id}}">会员卡明细</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            status: {0:"禁用",1:"正常"},
+            list:[],
+            searchCon:{nickname:'',status:'',mobile:'',p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            mySearch: function (search) {
+                var data = this.searchCon;
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            },
+            openUser: function (member_id) {
+                $.dialog({id: 'popup', lock: true,icon:"question", content: "确认开启吗？",cancel: true, ok: function () {
+                    $.getJSON("{:U('open_user')}",{member_id:member_id},function (data) {
+                        $.dialog({id: 'popup', lock: true, content: data.info, time: 2});
+                        if(data.status == 1){
+                            app.mySearch(false);
+                        }
+                    })
+                }})
+            },
+            disableUser: function (member_id) {
+                $.dialog({id: 'popup', lock: true,icon:"question", content: "确认禁用吗？",cancel: true, ok: function () {
+                    $.getJSON("{:U('disable_user')}",{member_id:member_id},function (data) {
+                        $.dialog({id: 'popup', lock: true, content: data.info, time: 2});
+                        if(data.status == 1){
+                            app.mySearch(false);
+                        }
+                    })
+                }})
+            },
+            export: function () {
+                sendPost("{:U('exportMember')}",this.searchCon);
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+    function sendPost(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.target="_blank";
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+</script>
+</body>
+</html>

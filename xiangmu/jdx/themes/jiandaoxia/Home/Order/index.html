@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+
+<html>
+
+<head lang="en">
+
+    <meta charset="utf-8">
+
+    <title>CUTMAN男士理发</title>
+
+    <meta name="keywords" content="">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!--分享使用-->
+
+    <meta itemprop="name" content="" />
+
+    <meta itemprop="description" name="description" content="" />
+
+    <meta itemprop="image" content="img_url" />
+
+    <meta name="format-detection" content="telephone=no" />
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/global.css">
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/font-awesome.min.css" />
+
+
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style2.css" />
+
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+
+
+
+    <style type="text/css">
+
+        #load_more{
+
+            text-align: center!important;
+
+            line-height: 45px!important;
+
+            height: 45px!important;
+
+            overflow-y: hidden!important;
+
+            font-size: 14px!important;
+
+            box-sizing: border-box!important;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="body" id="app" style="padding-bottom: 3rem">
+
+    <!--<div class="q-header q-header-color1">
+
+        &lt;!&ndash;<a href="{:U('Member/index')}" class="q-pull-left"><i class="fa fa-angle-left"></i></a>&ndash;&gt;
+
+        <span class="q-title">我的预约</span>
+
+    </div>-->
+
+    <nav>
+
+        <div class="yy-nav-div">
+
+            <a v-cloak v-for="item in status" :href="'{:U('Order/index')}/status/'+item.status" class="yy-nav-a" :class="searchCon.nowStatus==item.status?'yy-nav-active':''">
+
+                <i>{{item.name}}</i>
+
+                <span class="yy-nav-a-span">{{tabNum[item.status]}}</span>
+
+                <span class="yy-nav-a-span1"></span>
+
+                <span class="yy-nav-a-span2"></span>
+
+            </a>
+
+        </div>
+
+    </nav>
+
+    <section v-cloak v-if="list.length > 0">
+
+        <div v-cloak v-for="item in list" class="yy-sec-div1 border-bottom">
+
+            <div class="yy-div1-div1 bigdiv clearfix border-bottom">
+
+                <span class="yy-sec-span-left span-color span-size">预约单号：</span>
+
+                <span class="yy-number span-color span-size">{{item.order_id}}</span>
+
+                <span class="yy-sec-span-right span-size">{{statusShow[item.status]}}</span>
+
+            </div>
+
+            <div class="yy-div1-div2 bigdiv clearfix" @click="detail(item.order_id)" :class="item.status=='0' || item.status=='3'?'':'border-bottom'">
+
+                <div class="yy-head-img">
+
+                    <img :src="item.headimgurl?item.headimgurl:'__TMPL__Public/img/slice/avatar.png'" />
+
+                </div>
+
+                <div class="yy-write">
+
+                    <div class="yy-write-left">
+
+                        <h3 class="color-yello">{{item.barber_name}}</h3>
+
+                        <p>{{item.service_name}}</p>
+
+                        <p><span>{{item.service_time}}</span></p>
+
+                    </div>
+
+                    <div class="yy-write-right" @click.stop>
+
+                        <a :href="'tel:'+item.barber_tel"><img src="__TMPL__/Public/img/yy_phone.png"/></a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div v-if="item.status=='1'" class="yy-div1-div3 bigdiv clearfix">
+
+                <button @click="orderCancel(item.order_id)" class="color-yello button-style">取消订单</button>
+
+            </div>
+
+            <div v-if="item.status=='2' && item.is_comment=='0'" class="yy-div1-div3 bigdiv clearfix">
+
+                <button @click="comment(item.order_id)" class="color-yello button-style">评价</button>
+
+            </div>
+
+            <div v-if="item.status=='2' && item.is_comment=='1'" class="yy-div1-div3 bigdiv clearfix">
+
+                <button @click="lookComment(item.order_id)" class="color-yello button-style">我的评价</button>
+
+            </div>
+
+        </div>
+
+        <div @click="mySearch(false)" id="load_more">
+
+            {{loadContent}}
+
+        </div>
+
+    </section>
+
+    <button v-else onclick="javascript:location.href='{:U("Index/index")}';" class="wyy-but color-yello button-style">去预约</button>
+
+</div>
+
+<tc_include file="Public:footer" />
+
+</body>
+
+<script src="__TMPL__/Public/script/common.js"></script>
+
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+
+<script src="__TMPL__Public/layer/layer.js"></script>
+
+<script type="text/javascript">
+
+    var app = new Vue({
+
+        el: "#app",
+
+        data: {
+
+            list:[],
+
+            status:[
+
+                {status:100,name:"全部"},
+
+                {status:1,name:"未服务"},
+
+                {status:2,name:"已完成"},
+
+                {status:3,name:"已关闭"}
+
+            ],
+
+            statusShow:{100:"全部",0:"已关闭",1:"未服务",2:"已完成",3:"已失效"},
+
+            tabNum:{},
+
+            searchCon:{
+
+                nowStatus:100,
+
+                p:1
+
+            },
+
+            pageConf:{
+
+                currPage:0,
+
+                totalPages:0
+
+            },
+
+            loadContent:"加载更多"
+
+        },
+
+        methods: {
+
+            mySearch: function (search) {
+
+                if (search == false && this.pageConf.currPage == this.pageConf.totalPages) {
+
+                    return;
+
+                }
+
+                var data = this.searchCon;
+
+                data.p = search == true ? 1 : this.pageConf.currPage+1;
+
+                var loadingIndex = 0;
+
+                $.ajax({
+
+                    url:"{:U('index')}",
+
+                    data:data,
+
+                    type:"POST",
+
+                    dataType:"json",
+
+                    beforeSend: function () {
+
+                        loadingIndex = layer.open({type:2,shadeClose:false});
+
+                    },
+
+                    success: function (res) {
+
+                        if (res.info.list) {
+
+                            app.list = app.list.concat(res.info.list);
+
+                            app.tabNum = res.info.tabNum;
+
+                            app.pageConf.totalPages = res.info.totalPages;
+
+                            app.pageConf.currPage += 1;
+
+                            if (app.pageConf.currPage == app.pageConf.totalPages) {
+
+                                app.loadContent = "加载完毕";
+
+                            }
+
+                            if (res.info.list.length == 0) {
+
+                                app.pageConf.totalPages = data.p;
+
+                                app.loadContent = "加载完毕";
+
+                            }
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        layer.open({content:"请求失败，请重试",time:3});
+
+                    },
+
+                    complete: function () {
+
+                        layer.close(loadingIndex);
+
+                    }
+
+                })
+
+            },
+
+            orderCancel: function (orderId) {
+
+                layer.open({
+
+                    content: '温馨提示：离预约开始时间少于12小时不支持退款',
+
+                    btn: ['知道了'],
+
+                    shadeClose: false,
+
+                    yes: function(){
+
+                        location.href = "{:U('orderCancel')}/orderId/"+orderId;
+
+                    }
+
+                });
+
+            },
+
+            comment: function (orderId) {
+
+                location.href = "{:U('Comments/index')}/orderId/"+orderId;
+
+            },
+
+            lookComment: function (orderId) {
+
+                location.href = "{:U('Comments/lookComment')}/orderId/"+orderId;
+
+            },
+
+            detail: function (orderId) {
+
+                location.href = "{:U('detail')}/orderId/"+orderId;
+
+            }
+
+        },
+
+        created: function () {
+
+            this.searchCon.nowStatus = {:I('status') ? I('status') : 100};
+
+            this.mySearch(true);
+
+        }
+
+    });
+
+</script>
+
+</html>

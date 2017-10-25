@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <tc_include file="Public:header" />
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+    <style type="text/css">
+        .system-message{ padding: 1.35rem 48px; color: #FFF !important;}
+        .system-message p{ color: #FFF !important;}
+        .system-message h1{ font-size: 20px; font-weight: normal; line-height: 120px; margin-bottom: 12px; color: #FFF !important;}
+        .system-message .jump{ padding-top: 10px}
+        .system-message .jump a{ color: #FFF !important;}
+        .system-message .success,.system-message .error{ line-height: 1.8em; font-size: 20px }
+        .system-message .detail{ font-size: 12px; line-height: 20px; margin-top: 12px; display:none}
+    </style>
+</head>
+<body  class="back-black">
+    <div class="q-header q-header-color1">
+        <a href="{:U('Index/index')}" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+        <span class="q-title">提示</span>
+    </div>
+    <div class="system-message">
+        <?php if(isset($message)) {?>
+        <h1>:)</h1>
+        <p class="success"><?php echo($message); ?></p>
+        <?php }else{?>
+        <h1>:(</h1>
+        <p class="error"><?php echo($error); ?></p>
+        <?php }?>
+        <p class="detail"></p>
+        <p class="jump" id="jump">
+            页面自动 <a id="href" href="<?php echo($jumpUrl); ?>">跳转</a> 等待时间： <b id="wait"><?php echo($waitSecond); ?></b>
+        </p>
+    </div>
+    <script type="text/javascript">
+        (function(){
+            if(history.length<=2){
+                $("#jump").hide();
+            }
+            var wait = document.getElementById('wait'),href = document.getElementById('href').href;
+            var interval = setInterval(function(){
+                var time = --wait.innerHTML;
+                if(time <= 0) {
+                    location.href = href;
+                    clearInterval(interval);
+                };
+            }, 1000);
+        })();
+    </script>
+</body>
+</html>

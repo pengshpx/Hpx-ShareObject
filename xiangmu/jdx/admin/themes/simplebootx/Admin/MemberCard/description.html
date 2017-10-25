@@ -1,0 +1,40 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('index')}">会员卡列表</a></li>
+        <li><a href="{:U('add')}">添加会员卡</a></li>
+        <li class="active"><a href="{:U('description')}">会员卡详细描述</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-forms" action="{:U('description_post')}" method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <fieldset>
+                            <div style="display: none">
+                                <input type="hidden" name="option_id" value="{$option_id}">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">会员卡详细描述：</label>
+                                <div class="controls">
+                                    <textarea  name="card[description]" cols="50" rows="7">{$card.description}</textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary  js-ajax-submit">确认编辑</button>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+</body>
+</html>

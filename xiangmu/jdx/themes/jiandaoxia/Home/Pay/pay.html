@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html class="back-black">
+
+<head>
+
+    <tc_include file="Public:header"/>
+
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css"/>
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css"/>
+
+    <style>
+
+        .result{
+
+            display: none;
+
+        }
+
+    </style>
+
+</head>
+
+<body class="back-black text-center">
+
+<if condition="$way eq 'moneypay'">
+
+    <if condition="$payResult eq 1">
+
+        <div class="q-header q-header-color1">
+
+            <span class="q-title">支付成功</span>
+
+        </div>
+
+        <div class="sucess_tag bod-pad">
+
+        </div>
+
+        <p class="font16 color-fff">支付成功</p>
+
+        <div class="look">
+
+            <a href="{:U('Home/Order/index?status=1')}" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">查看我的预约信息</a>
+
+        </div>
+
+        <else/>
+
+        <div class="q-header q-header-color1">
+
+            <span class="q-title">支付失败</span>
+
+        </div>
+
+        <div class="sucess_tag failure bod-pad">
+
+        </div>
+
+        <p class="font16 color-fff">支付失败</p>
+
+        <div class="look">
+
+            <a href="{:U('Order/appointment',array('barber_id'=>$barberId,'store_barber_id'=>$StoreBarberId))}" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">重新预约</a>
+
+        </div>
+
+    </if>
+
+
+
+</if>
+
+<if condition="$way eq 'wxpay'">
+
+    <div class="result" id="success">
+
+        <div class="q-header q-header-color1">
+
+            <span class="q-title">支付成功</span>
+
+        </div>
+
+        <div class="sucess_tag bod-pad">
+
+        </div>
+
+        <p class="font16 color-fff">支付成功</p>
+
+        <div class="look">
+
+            <a href="{:U('Home/Order/index?status=1')}" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">查看我的预约信息</a>
+
+        </div>
+
+    </div>
+
+    <div class="result" id="fail">
+
+        <div class="q-header q-header-color1">
+
+            <span class="q-title">支付失败</span>
+
+        </div>
+
+        <div class="sucess_tag failure bod-pad">
+
+        </div>
+
+        <p class="font16 color-fff">支付失败</p>
+
+        <div class="look">
+
+           <!-- <a href="javascript:onBridgeReady();" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">重新支付</a>-->
+
+            <a href="{:U('Order/appointment',array('barber_id'=>$barberId,'store_barber_id'=>$StoreBarberId))}" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">重新预约</a>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        function onBridgeReady(){
+
+            WeixinJSBridge.invoke('getBrandWCPayRequest', {$jsParameters}, function(res){
+
+                //alert(res.err_msg);
+
+                if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+
+                    $("#fail").hide();
+
+                    $("#success").show();
+
+                }else{
+
+                    $("#success").hide();
+
+                    $("#fail").show();
+
+//                    $.ajax({
+//
+//                        url:"{:U('Order/deleteOrder',array('oid'=>$orderId))}",
+//
+//                        async:false,
+//
+//                        success:function (res) {
+//
+//
+//
+//                        }
+
+//                    })
+
+                }
+
+            }
+
+        );
+
+        }
+
+        if (typeof WeixinJSBridge == "undefined"){
+
+            if( document.addEventListener ){
+
+                document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+
+            }else if (document.attachEvent){
+
+                document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+
+                document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+
+            }
+
+        }else{
+
+            onBridgeReady();
+
+        }
+
+    </script>
+
+</if>
+
+<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+
+</body>
+
+</html>
+

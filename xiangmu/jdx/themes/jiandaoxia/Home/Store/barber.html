@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>剪刀侠</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="themes/images/icon.png" />
+
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/swiper.min.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/swiper.min.js" ></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/pinchzoom.min.js" ></script>
+	<style type="text/css">
+		div.pinch-zoom,
+		div.pinch-zoom img{
+			width: 100%;
+			-webkit-user-drag: none;
+		}
+		.detail_look{ display: none;position: fixed;width:100%;height: 100%;left:0px; top:0px;background-color:rgba(68,68,68,1);z-index: 2000;}
+		.detail_look .swiper-container{position: absolute;width:100%;left:0px;top:45%;transform: translateY(-50%);-webkit-transform: translateY(-50%);}
+		.detail_look .close_btn button{ position: absolute;bottom: 5%;left:50%;transform: translateX(-50%);-webkit-transform: translateX(-50%);z-index: 1000;}
+
+	</style>
+</head>
+<body class="back-black p-b-50">
+<div class="q-header q-header-color1">
+	<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+	<span class="q-photo"></span>
+</div>
+	<section   class="pad10 bod-pad">
+		<div class="hairdresser_touxiang back-222 p-v-10">
+			<div class="touxiang  back-222">
+				<div class="photo" style="background-image: url({$barber['headimgurl']?$barber['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>});">
+				</div>
+				<div class="person_con">
+					<h4 class="color-gold hgt25 l-h-25 font14">{$barber.name}</h4>
+					<div class="set_stars hgt25 l-h-25">
+						<input type="hidden"  value="{$barber.stars}" />
+					</div>
+					<p class="color-gold l-h-20 font14">{$barber.service_num}单·从业{$barber.year}年</p>
+				</div>
+			</div>
+			<div class="txt_about pad10 m-t-10 color-gold">
+				{$barber.description|nl2br}
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="intruduction_con pad10 p-b-no">
+			
+			<div class="shop_show back-222">
+				<div class="title2 p_both10 hgt30 l-h-30 color-gold font12 back-333 bgimg_left"></div>
+				<div class="img_list pad10 back-222">
+					<table width="100%">
+						<tr><th>项目</th><th>价格</th><th>会员价</th></tr>
+						<volist name="services" id="vo">
+							<tr><td  style="width:33%">{$vo.name}</td>
+								<td  style="width:33%">{$vo.price}元</td>
+								<td  style="width:34%">{:sprintf('%.2f',($vo['price']*0.85))}元</td>
+							</tr>
+						</volist>
+					</table>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section>
+		<div class="intruduction_con pad10 p-b-no">
+			
+			<div class="shop_show back-222">
+				<div class="title5 p_both10 hgt30 l-h-30 color-gold font12 back-333 bgimg_left"></div>
+				<div class=" case_list pad10 back-222">
+					<ul>
+						<volist name="barber.photos" id="vo">
+							<li><a href="javascript:;" >
+								<img src="{$vo}"/>
+							</a></li>
+						</volist>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section v-cloak id="app">
+		<div class="intruduction_con pad10 ">
+			<div class="shop_text ">
+				<div class="title4 p_both10 hgt30 l-h-30 color-gold font12 back-333 bgimg_left"></div>
+		
+			</div>
+			<div v-for="item in comments" class="pingjia pad10 clear" style="overflow: hidden">
+
+					<div class="img" :style="item.headimgurl?'background-image: url('+item.headimgurl+')':'background-image: url(__TMPL__Public/img/slice/avatar.png)'">
+
+					</div>
+					<div class="pingjia_con">
+						<div class="top hgt30 l-h-30 color-fff">
+							<span class="wid40 inline_div font14">{{item.nickname}}</span>
+							<em class="fr_mid color-gray">{{item.create_time}}</em>
+
+						</div>
+						<div class="client_massage">
+							{{item.content}}
+						</div>
+						<p v-if="item.reply != null" class="answer color-gold">剪刀侠回复：{{item.reply}}</p>
+
+					</div>
+			</div>
+			<div @click="getComments(false)" class="load_more hgt45 l-h-45 text-center font14">
+				{{loadContent}}
+			</div>
+			<div class="yuyue text-center  p-v-10 back-black">
+				 <a @click="jumpAppointment('{$barber.id}','{$barber.store_barber.id}')" class="border-gold color-gold hgt35 l-h-35 p_both25 radius4 font16 inline_div button_active">立即预约</a>
+			</div>
+		</div>
+	</section>
+<section >
+	<div class="detail_look">
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+			</div>
+		</div>
+		<div class="close_btn">
+			<button href="javascript:" class="border-gold color-gold hgt35 l-h-35 p_both25 radius4 font16 inline_div button_active">关闭</button>
+		</div>
+
+
+	</div>
+</section>
+
+</body>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el:"#app",
+		data:{
+			comments:[],
+			searchCon:{
+				barber_id:"{$barber.id}",
+				p:1
+			},
+			pageConf:{
+				currPage:0,
+				totalPages:0
+			},
+			loadContent:"加载更多"
+		},
+		methods:{
+			getComments: function (search) {
+				if (search == false && this.pageConf.currPage == this.pageConf.totalPages) {
+					return;
+				}
+				var data = this.searchCon;
+				data.p = search == true ? 1 : this.pageConf.currPage+1;
+				var loadingIndex = layer.open({type:2,shadeClose:false});
+				$.ajax({
+					url:"{:U('barberComments')}",
+					data:data,
+					type:"POST",
+					dataType:"json",
+					beforeSend: function () {
+						loadingIndex = layer.open({type:2,shadeClose:false});
+					},
+					success: function (res) {
+						if (res.info.list) {
+							app.comments = app.comments.concat(res.info.list);
+							app.pageConf.totalPages = res.info.totalPages;
+							app.pageConf.currPage += 1;
+							if (app.pageConf.currPage == app.pageConf.totalPages) {
+								app.loadContent = "加载完毕";
+							}
+							if (res.info.list.length == 0) {
+								app.pageConf.totalPages = data.p;
+								app.loadContent = "加载完毕";
+							}
+						}
+					},
+					error: function () {
+						app.loadContent = "加载失败";
+						layer.open({content:"无法加载评价，请刷新重试",time:2,shadeClose:false});
+					},
+					complete: function () {
+						layer.close(loadingIndex);
+					}
+				})
+			},
+			jumpAppointment: function (berber_id,store_barber_id) {
+				location.href="{:U('Order/appointment')}/barber_id/"+berber_id+"/store_barber_id/"+store_barber_id;
+			}
+		},
+		created: function () {
+			this.getComments(true);
+		}
+	})
+</script>
+<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/scale.css"/>
+<script type="text/javascript" src="__TMPL__Public/lib/scale.js" ></script>
+<script type="text/javascript">
+	var img_url={filled:"__TMPL__Public/img/pingjia1.png",empty:"__TMPL__Public/img/pingjia2.png"};
+	set_stars($(".set_stars"),img_url,5,18,"show")
+
+	/*缩放插件初始化*/
+	/*document.addEventListener("DOMContentLoaded", function(event){
+		ImagesZoom.init({
+			"elem": ".case_list"
+		});
+	}, false);*/
+	$(".case_list ul li").click(function(){
+		$(".swiper-container .swiper-wrapper").empty();
+		var ind=$(".case_list ul li").index($(this));
+		var len=$(".case_list ul li").length;
+		$(".case_list ul li").each(function(){
+			var src=$(this).find("img").prop("src");
+			$(".swiper-container .swiper-wrapper").append('<div class="swiper-slide"><div class="look_box"><img src="'+src+'"/></div></div>')
+		});
+
+		$(".detail_look").show();
+		var mySwiper = new Swiper('.swiper-container', {
+			initialSlide:ind,
+			loop:true
+
+
+		})
+		$('.look_box').each(function () {
+			new RTP.PinchZoom($(this), {});
+		});
+
+	});
+	$(".detail_look .close_btn button").click(function(){
+		$(".detail_look").hide();
+
+	})
+</script>
+<script>
+	var option = {
+		title:'剪刀侠男士理发',
+		link:location.href,
+		imgUrl:'http://'+window.location.host+"/{$barber['headimgurl']?$barber['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>}",
+		desc:'剪刀侠理发师{$barber.name}。{$barber.description}'
+	}
+</script>
+<tc_include file="Public:jsapi"/>
+</html>

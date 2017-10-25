@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CUTMAN男士理发</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+
+
+</head>
+<body class="back-black" id="app">
+<div class="q-header q-header-color1">
+	<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+	<span class="q-title">优惠码</span>
+</div>
+	<section class="bod-pad">
+	<div class="item_list p_both15 back-222 b-b-333 m-b-10 p_both10 person_center">
+		    <ul>
+		    	<li v-cloak v-for="item in list">
+		    		<a href="javascript:;">
+		    			<div class="left">
+		    				<em>{{item.code}}</em>
+		    				<em  class="fr_mid color-gold">{{item.money}}元</em>
+		    			</div>
+		    		</a>
+		    	</li>
+		    </ul>
+		</div>
+	</section>
+<div @click="mySearch(false)" class="load_more hgt45 l-h-45 text-center font14">
+	{{loadContent}}
+</div>
+</body>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el: "#app",
+		data: {
+			list:[],
+			searchCon:{
+				p:1
+			},
+			pageConf:{
+				currPage:1,
+				totalPages:0
+			},
+			loadContent:"加载更多"
+		},
+		methods: {
+			mySearch: function (search) {
+				if (search == false && this.pageConf.currPage == this.pageConf.totalPages) {
+					return;
+				}
+				var data = this.searchCon;
+				data.p = search == true ? 1 : this.pageConf.currPage+1;
+				var loadingIndex = 0;
+				$.ajax({
+					url:"{:U('coupon')}",
+					data:data,
+					type:"POST",
+					dataType:"json",
+					beforeSend: function () {
+						loadingIndex = layer.open({type:2,shadeClose:false});
+					},
+					success: function (res) {
+						if (res.info.list) {
+							app.list = app.list.concat(res.info.list);
+							app.pageConf.totalPages = res.info.totalPages;
+							app.pageConf.currPage += 1;
+							if (app.pageConf.currPage == app.pageConf.totalPages) {
+								app.loadContent = "加载完毕";
+							}
+							if (res.info.list.length == 0) {
+								app.pageConf.totalPages = data.p;
+								app.loadContent = "加载完毕";
+							}
+						}
+					},
+					error: function () {
+						layer.open({content:"请求失败，请重试",time:3});
+					},
+					complete: function () {
+						layer.close(loadingIndex);
+					}
+				})
+			}
+		},
+		created: function () {
+			this.mySearch(true);
+		}
+	});
+</script>
+</html>

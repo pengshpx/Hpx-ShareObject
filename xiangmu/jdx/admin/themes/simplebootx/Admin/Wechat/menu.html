@@ -1,0 +1,148 @@
+<admintpl file="header"/>
+<style>
+    .show-grid {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    .row-fluid [class*="span"]:first-child {
+        margin-left: 2.127659574468085% !important;
+    }
+</style>
+</head>
+<body>
+<div id="app" class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('Game/index')}">微信菜单设置</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-forms" action="{:U('Wechat/index')}" method="post">
+        <fieldset>
+            <div class="row-fluid">
+                <div class="span8">
+                    <div class="row-fluid">
+                        <div class="span12 show-grid" v-for="button in menu.button">
+                            <div class="span12 show-grid">
+                                <input type="text" placeholder="菜单名" v-model="button.name">
+                                <select style="width: 100px" v-if="button.sub_button.length==0" v-model="button.type">
+                                    <option value="view" selected>链接</option>
+                                    <option value="click" >关键字</option>
+                                </select>
+                                <input placeholder="链接或关键字" v-if="button.sub_button.length==0" type="text" v-model="button.url">
+                                <a class="btn" @click="addSubMenu(button)" href="javascript:;"><i class="icon-plus"></i> 添加子菜单</a>
+                                <a class="btn" href="javascript:;" @click="removeMenu(button)"><i class="icon-remove"></i> 删除菜单</a>
+                            </div>
+                            <div class="offset1 span11 show-grid" v-for="sub in button.sub_button">
+                                <input type="text" placeholder="菜单名" v-model="sub.name">
+                                <select style="width: 100px" v-model="sub.type">
+                                    <option value="view" selected>链接</option>
+                                    <option value="click" >关键字</option>
+                                </select>
+                                <input  type="text" placeholder="链接或关键字" v-model="sub.url">
+                                <a class="btn" @click="removeSubBtn(sub,button)" href="javascript:;"><i class="icon-remove"></i> 删除菜单</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+                <button type="button" @click="addMenu" class="btn ">添加菜单</button>
+                <button type="button" @click="save" class="btn btn-primary" >保存</button>
+            </div>
+        </fieldset>
+    </form>
+</div>
+<div id="funcModal"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="funcModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="funcModalLabel">菜单功能</h3>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal">
+            <div class="control-group">
+                <label class="control-label">类型：</label>
+                <div class="controls">
+                    <label class="radio inline" for="one">
+                        <input type="radio" id="one" value="view" name="type" v-model="newMenu.type">
+                        链接
+                    </label>
+                    <label class="radio inline" for="two">
+                        <input type="radio" id="two" value="click" name="type" v-model="newMenu.type">
+                        关键字
+                    </label>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="inputPassword">URL或关键字：</label>
+                <div class="controls">
+                    <input v-model="newMenu.url" type="text" id="inputPassword" placeholder="URL或关键字">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer text-center">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">取消</button>
+        <button class="btn btn-primary" @click="funSave">确定</button>
+    </div>
+</div>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+</body>
+<script>
+    var app = new Vue({
+        el: "#app",
+        data: {
+            menu:{$menu},
+            newMenu: {
+                name: '',
+                type: '',
+                url: ''
+            }
+        },
+        methods: {
+            addMenu: function () {
+                if (this.menu.button.length >= 3) {
+                    return;
+                }
+                this.menu.button.push({
+                    name: '',
+                    type: '',
+                    url: '',
+                    sub_button: []
+                })
+            }
+            ,
+            addSubMenu: function (button) {
+                if (button.sub_button.length < 5) {
+                    button.sub_button.push({
+                        name: '',
+                        type: '',
+                        url: ''
+                    })
+                }
+
+            },
+            removeMenu:function (button) {
+                this.menu.button.$remove(button)
+            },
+            removeSubBtn:function (sub,button) {
+                button.sub_button.$remove(sub);
+            },
+            save:function () {
+                console.log(this.menu);
+                $.ajax({
+                    url:"{:U('menu')}",
+                    data:{menu:this.menu.button},
+                    type:"POST",
+                    dataType:"json",
+                    success:function (res) {
+                        alert(res.info);
+                    }
+                })
+            }
+        }
+    })
+</script>
+</html>

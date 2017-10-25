@@ -1,0 +1,207 @@
+<admintpl file="header" />
+
+</head>
+
+<body>
+
+<div class="wrap js-check-wrap" id="app">
+
+    <ul class="nav nav-tabs">
+
+        <li class="active"><a href="{:U('coupon_business')}">商家链接列表</a></li>
+        <li ><a href="{:U('add_business')}">生成推广链接</a></li>
+
+    </ul>
+
+
+    <table class="table table-hover table-bordered table-list">
+
+        <thead>
+
+        <tr>
+
+            <th>商家名称</th>
+
+            <th>链接地址</th>
+
+            <th>优惠码金额</th>
+
+            <th>领取数量</th>
+
+            <th>状态</th>
+
+            <th>操作</th>
+
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        <tr v-for="item in list">
+
+            <td>{{item.name}}</td>
+
+            <td>http://wx.cutman.cn/Coupon/business/bcode/{{item.code}}.html</td>
+
+            <td>{{item.money}}</td>
+
+            <td>{{item.send_count}}</td>
+
+            <td>{{item.deleted==1?"暂停":"进行中"}}</td>
+            <td align="center">
+
+                <a v-if="item.deleted==0" @click="update_deleted(item.id)" class="btn btn-small btn-primary">暂停活动</a>
+                <a v-if="item.deleted==1" @click="update_deleted(item.id)" class="btn btn-small btn-info">开启活动</a>
+
+                <a class="btn btn-small btn-info" href="{:U('edit_business')}/id/{{item.id}}">编辑</a>
+                <a class="btn btn-small btn-info" href="{:U('detail_business')}/id/{{item.id}}">查看详情</a>
+
+            </td>
+
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+
+</div>
+
+<script src="__PUBLIC__/js/common.js"></script>
+
+<script src="__PUBLIC__/js/vue.js"></script>
+
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+
+<script type="text/javascript">
+
+    Wind.use("artDialog", function () {});
+
+    var app = new Vue({
+
+        el:"#app",
+
+        data:{
+
+            list:[],
+
+            searchCon:{p:1},
+
+            pagerConf:{
+
+                totalPage : 0,
+
+                currPage : 1,
+
+                prevShow : 3,
+
+                nextShow : 3,
+
+                pageRange:[]
+
+            }
+
+        },
+
+        watch:{
+
+            'pagerConf.currPage':function () {
+
+                this.mySearch(false);
+
+            }
+
+        },
+
+        methods:{
+            update_deleted:function(id){
+                if(id<=0){
+                    $.dialog({id: 'popup1', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    return false;
+                }else {
+                    $.ajax({
+
+                        url: "{:U('delete_business')}",
+
+                        data: {id:id},
+
+                        type: "POST",
+
+                        dataType: "json",
+
+                        success: function (res) {
+
+                            if (res.status == 1) {
+
+                                window.location.reload();
+
+                            }else{
+                                $.dialog({id: 'popup1', lock: true,icon:"warning", content: "更新失败", time: 2});
+                                return false;
+                            }
+
+                        },
+
+                    });
+                }
+
+            },
+            mySearch: function (search) {
+
+                var data = this.searchCon;
+
+
+
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+
+
+
+                $.ajax({
+
+                    url:"{:U('coupon_business')}",
+
+                    data:data,
+
+                    type:"POST",
+
+                    dataType:"json",
+
+                    success: function (res) {
+
+                        if (res.status == 1) {
+
+                            app.list = res.list;
+
+                            app.pagerConf.totalPage = res.totalPage;
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+
+                    }
+
+                })
+
+            }
+
+        },
+
+        created: function () {
+
+            this.mySearch(true);
+
+        }
+
+    });
+
+</script>
+
+</body>
+
+</html>

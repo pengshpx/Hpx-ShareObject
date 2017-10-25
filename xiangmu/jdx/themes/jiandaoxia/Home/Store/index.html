@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>剪刀侠</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css?v=0.01" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+
+
+</head>
+<body class="back-black">
+<header class="bgimg_mid header footer_back q-header ">
+	<a href="{:U('Index/selectLocation')}" class="fr_mid color-gold m-r-10 bgimg_left p-l-25">{:str_replace('市','',$store['city'])}</a>
+	<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+</header>
+	<section class="bod-pad">
+		<div class="shop_list  m-b-10">
+			<ul>
+				<li class="back-222 b-b-333 ">
+					<div onclick="location.href='{:U('Store/info/id/'.$store['id'])}'">
+						<img src="{$store.pic}"/>
+					</div>
+					<div class="shop_con p_both15">
+						<div class="shop_name ">
+							<h4 class="inline_div wid90 color-fff font14">{$store.name}</h4>
+							<a href="tel:{$store.tel}" class="fr_mid">
+								<img src="__TMPL__Public/img/tel2.png" />
+							</a>
+						</div>
+						<div class="address_con l-h-25">
+							<h5 class="color-gray font14">{$store.open_time}-{$store.close_time}</h5>
+							<p>{$store.address}</p>
+						</div>	
+					</div>
+				</li>
+			</ul>
+	   </div>
+	</section>
+	<section>
+		<div class="hairdresser_list">
+			<div class="title p_both15 hgt30 l-h-30 color-gray back-333">
+			    详细描述<a href="{:U('Store/info/id/'.$store['id'])}" class="fr_mid  fa fa-angle-right color-gray font30 wid70 text-right"></a>
+			</div>
+			<ul class="p_both15 back-222">
+				<volist name="barbers" id="vo">
+					<li class="p-v-10">
+						<div class="photo fl"  style="background-image: url({$vo['headimgurl']?$vo['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>});">
+						</div>
+						<div class="dothing fr">
+							<span class="fr hgt20 l-h-20 inline_div wid90 text-right color-gray">{$vo.service_name}：{$vo.service_price}元</span>
+							<button onclick="jumpBarber('{$vo.barber_id}','{$vo.store_barber_id}');" class="border-gold color-gold radius4 font14 text-center right_bottom">
+								预约
+							</button>
+						</div>
+						<div class="person_con">
+							<div class="name hgt30 l-h-30 font14 color-gold">{$vo.barber_name}</div>
+							<div class="set_stars">
+								<input type="hidden"  value="{$vo.stars}" >
+							</div>
+							<p class="color-gray font12 l-h-30">{$vo.service_num}单·{$vo.year}年从业经验</p>
+						</div>
+					</li>
+				</volist>
+			</ul>
+		</div>
+	</section>
+</body>
+<script type="text/javascript">
+	var img_url={filled:"__TMPL__Public/img/pingjia1.png",empty:"__TMPL__Public/img/pingjia2.png"};
+	set_stars($(".set_stars"),img_url,5,14,"show")
+	function jumpBarber(berber_id,store_barber_id) {
+		location.href="{:U('Store/barber')}/barber_id/"+berber_id+"/store_barber_id/"+store_barber_id;
+	}
+</script>
+<script>
+	var option = {
+		title:'剪刀侠男士理发',
+		link:location.href,
+		imgUrl:'http://'+window.location.host+'/{$store.pic}',
+		desc:'{$store.name}。{:strip_tags(htmlspecialchars_decode($store[details]))}'
+	}
+</script>
+<tc_include file="Public:jsapi"/>
+</html>

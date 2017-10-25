@@ -1,0 +1,51 @@
+<admintpl file="header" />
+<style type="text/css">
+    /*移除HTML5 input在type="number"时的上下小箭头*/
+    /*在chrome下：*/
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button{
+        -webkit-appearance: none !important;
+        margin: 0;
+    }
+    /*Firefox下：*/
+    input[type="number"]{
+        -moz-appearance:textfield;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">商城设置</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-forms" action="{:U('setting/mall_setting_post')}" method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <fieldset>
+                            <div style="display: none">
+                                <input type="hidden" name="option_id" value="{$option_id}">
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">客服热线：</label>
+                                <div class="controls">
+                                    <input type="number" name="mall[callCenters]" value="{$mall_setting.callCenters}">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary  js-ajax-submit">{:L("SAVE")}</button>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+</body>
+</html>

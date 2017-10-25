@@ -1,0 +1,280 @@
+[ 2017-01-16T09:20:05+08:00 ] 140.207.54.73 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CCB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[kjohoat34cjvmit53ly7igm1artb4tb9]]></nonce_str>
+<openid><![CDATA[oIac0wU2TPOnpS9Ef6LnYuU98xLs]]></openid>
+<out_trade_no><![CDATA[20162713]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[FA213EC8AA3D5B1CC36EBB07684D55BF]]></sign>
+<time_end><![CDATA[20170116092005]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4007722001201701166473518765]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T10:33:07+08:00 ] 140.207.54.74 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[BOC_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[rbmp0pkfjhbs5zaxwxk0atl5cx3s53u8]]></nonce_str>
+<openid><![CDATA[oIac0wYCaZPA0NUETTJcWoIXDlXI]]></openid>
+<out_trade_no><![CDATA[20162714]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[59A51D6556E4A4F5DD478C53FE7D6566]]></sign>
+<time_end><![CDATA[20170116103307]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4007042001201701166479970140]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T10:35:15+08:00 ] 140.207.54.73 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[BOC_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[e8jwm2x7wbq7zmz7c96tmxfgxt2vaf3p]]></nonce_str>
+<openid><![CDATA[oIac0wYCaZPA0NUETTJcWoIXDlXI]]></openid>
+<out_trade_no><![CDATA[20162715]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[DF7FF6D71B636B96F1E82C314A1C44AC]]></sign>
+<time_end><![CDATA[20170116103514]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4007042001201701166478073494]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T12:25:25+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CCB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[11000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[dcjmkkx3kprxb0e6eqh4kkgpok0w1ss3]]></nonce_str>
+<openid><![CDATA[oIac0wR1oSJfshTtOKlDYi7kfwlo]]></openid>
+<out_trade_no><![CDATA[20162720]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[EE903D57CA0E2A3CE8C08CB569D25A8D]]></sign>
+<time_end><![CDATA[20170116122525]]></time_end>
+<total_fee>11000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4004782001201701166491621414]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T12:36:08+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[6000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[kcxd8l83213dkov5nj7hy7a3u4p2ogsc]]></nonce_str>
+<openid><![CDATA[oIac0wZ4tzVouHEGlQW-uA6QENSU]]></openid>
+<out_trade_no><![CDATA[20162722]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[1383675B17E14CBE1FA3393E6CF06202]]></sign>
+<time_end><![CDATA[20170116123607]]></time_end>
+<total_fee>6000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4009472001201701166491910554]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T12:49:34+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[BOCD_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[qpix52v34sh16xzyw8stiffficpuywok]]></nonce_str>
+<openid><![CDATA[oIac0wQYEXUchpJFqmzRbGcGP9Dg]]></openid>
+<out_trade_no><![CDATA[20162723]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[0272CC8A6581A3F87BEC119E4B833141]]></sign>
+<time_end><![CDATA[20170116124933]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4004692001201701166495921447]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T13:36:24+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[ABC_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[2rdu52pd2zivrtozno09ztams6fascwo]]></nonce_str>
+<openid><![CDATA[oIac0wTe3zgIxEsYUY3NfsFyTQVY]]></openid>
+<out_trade_no><![CDATA[20162724]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[63B5C7E4F39C970907B3B666CC934E73]]></sign>
+<time_end><![CDATA[20170116133611]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4004112001201701166504503398]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T17:17:49+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[11000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[4mv059y5s7emk662oh3xrdy1tq352fts]]></nonce_str>
+<openid><![CDATA[oIac0wa6YLH_LWew9jSG3MnOUYbU]]></openid>
+<out_trade_no><![CDATA[20162726]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[4B77413576FB4DFD91BA3C2A5F799D84]]></sign>
+<time_end><![CDATA[20170116171748]]></time_end>
+<total_fee>11000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4009562001201701166523211690]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T17:48:56+08:00 ] 140.207.54.74 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[ABC_DEBIT]]></bank_type>
+<cash_fee><![CDATA[11000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[a9rcdbzd2xt631ryvjc0qk45r6d6dbrs]]></nonce_str>
+<openid><![CDATA[oIac0wa5bjsxe8vOVGd5lHaa2i7o]]></openid>
+<out_trade_no><![CDATA[20162727]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[02D0D966AAAC9DF71B67AAAA2453DB83]]></sign>
+<time_end><![CDATA[20170116174856]]></time_end>
+<total_fee>11000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4008512001201701166524134353]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T17:49:37+08:00 ] 140.207.54.74 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[ABC_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[11ucqwqrwl3nsugyb9ub625pz9ehisy2]]></nonce_str>
+<openid><![CDATA[oIac0wa5bjsxe8vOVGd5lHaa2i7o]]></openid>
+<out_trade_no><![CDATA[20162728]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[1B4A4797F10A37B0C0973AE2CD81DCAA]]></sign>
+<time_end><![CDATA[20170116174937]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4008512001201701166529221774]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T19:57:03+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[bj1m7osijaopuvb4ijvoudhwjehj6fo7]]></nonce_str>
+<openid><![CDATA[oIac0wdaDIH16e-06aWgNLcBpkwk]]></openid>
+<out_trade_no><![CDATA[20162731]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[63901C55402859F61DF51145AA709ECB]]></sign>
+<time_end><![CDATA[20170116195702]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4010002001201701166541912676]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T21:50:12+08:00 ] 140.207.54.75 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[ABC_DEBIT]]></bank_type>
+<cash_fee><![CDATA[16000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[lk1xdc8jm94rt7s8rlba8dvyyp3xtk9u]]></nonce_str>
+<openid><![CDATA[oIac0wVTYaYv_tcLYfRQJjFLHyF8]]></openid>
+<out_trade_no><![CDATA[20162734]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[DC2EA9E102DC46DC7098F372E7F57D81]]></sign>
+<time_end><![CDATA[20170116215011]]></time_end>
+<total_fee>16000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4000292001201701166560648369]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T23:06:06+08:00 ] 140.207.54.76 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CCB_DEBIT]]></bank_type>
+<cash_fee><![CDATA[11000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[lxtzxqfdi9dcguc38tajl1eozjuppgy4]]></nonce_str>
+<openid><![CDATA[oIac0wUs4kmJZ9q7xTBHiHAkPjpU]]></openid>
+<out_trade_no><![CDATA[20162740]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[D01365C9F36A5D8B4ED01B3C00158FFA]]></sign>
+<time_end><![CDATA[20170116230605]]></time_end>
+<total_fee>11000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4001592001201701166566798283]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+
+[ 2017-01-16T23:52:48+08:00 ] 140.207.54.76 /Home/Notify/wxpay
+INFO: <xml><appid><![CDATA[wxe389a13b9a62a746]]></appid>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[11000]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1370599602]]></mch_id>
+<nonce_str><![CDATA[e234zern4daztb6ks6s9matfe9uknzem]]></nonce_str>
+<openid><![CDATA[oIac0wRh5xx5TO5tL8G2erm6ITt8]]></openid>
+<out_trade_no><![CDATA[20162743]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[6ED523F2A2B97A876EEE0FDB922C27FB]]></sign>
+<time_end><![CDATA[20170116235247]]></time_end>
+<total_fee>11000</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4001872001201701166563828948]]></transaction_id>
+</xml>
+微信支付回调成功，更改状态成功
+

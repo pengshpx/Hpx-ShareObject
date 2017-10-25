@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+
+<html class="back-black">
+
+<head>
+
+    <tc_include file="Public:header" />
+
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+
+
+
+</head>
+
+<body class="back-black ">
+
+<div class="position_bg">
+
+    <div class="con_box text-center">
+
+        <img src="__TMPL__/Public/img/slice/position2.png"/>
+
+        <div></div>
+
+        <div class="move color-gold">定位中...</div>
+
+        <p>寻找离您最近的剪刀侠</p>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script>
+
+    $(function () {
+
+        if(!isWeiXin()){
+
+            location.href="{:U('selectLocation')}";
+
+            /*$.ajax({
+
+                url:"{:U('location')}",
+
+                data:{lat:0,lng:0},
+
+                success:function (res) {
+
+                    if(res.status==1){
+
+                        location.href="{:U('index')}";
+
+                    }
+
+                }
+
+            })*/
+
+        }
+
+    })
+
+    setInterval(function(){
+
+        switch($(".move").text())
+
+        {
+
+            case "定位中.":
+
+                $(".move").text("定位中..")
+
+                break;
+
+            case "定位中..":
+
+                $(".move").text("定位中...")
+
+                break;
+
+            case "定位中...":
+
+                $(".move").text("定位中.")
+
+                break;
+
+        }
+
+
+
+    },1000)
+
+    wx.config({
+
+        debug: false,
+
+        appId: "{$sign.appId}",
+
+        timestamp: "{$sign.timestamp}",
+
+        nonceStr: "{$sign.nonceStr}",
+
+        signature: "{$sign.signature}",
+
+        jsApiList: ['getLocation']
+
+    });
+
+    wx.ready(function () {
+
+        wx.getLocation({
+
+            type: 'wgs84',
+
+            success: function (res) {
+
+                var latitude = res.latitude;
+
+                var longitude = res.longitude;
+
+                $.ajax({
+
+                    url:"{:U('location')}",
+
+                    data:{lat:latitude,lng:longitude},
+
+                    success:function (res) {
+
+                        if(res.status==1){
+
+                            location.href="{:U('index')}";
+
+                        }
+
+                        if(res.status==0){
+
+                            apiError();
+                        }
+
+                    }
+
+                })
+
+            },
+
+            cancel:function () {
+
+                apiError();
+
+            },
+
+            fail:function () {
+
+                apiError();
+
+            }
+
+        });
+
+
+
+    })
+
+    wx.error(function(res){
+
+        location.href="{:U('selectLocation')}";
+
+    });
+
+    function isWeiXin(){
+
+        var ua = window.navigator.userAgent.toLowerCase();
+
+        if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+
+            return true;
+
+        }else{
+
+            return false;
+
+        }
+
+    }
+
+    function apiError() {
+
+        $.ajax({
+
+            url:"{:U('location')}",
+
+            data:{lat:0,lng:0},
+
+            success:function (res) {
+
+                if(res.status==1){
+
+                    location.href="{:U('index')}";
+
+                }
+
+            }
+
+        })
+
+    }
+
+//    setTimeout(apiError(),5000);//调用会覆盖位置
+
+</script>
+

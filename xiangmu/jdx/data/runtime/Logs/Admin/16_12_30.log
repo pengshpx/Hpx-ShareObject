@@ -1,0 +1,28 @@
+[ 2016-12-30T17:11:08+08:00 ] 127.0.0.1 /Admin/Store/scheduleEdit
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_schedule`, CONSTRAINT `ehecd_schedule_ibfk_1` FOREIGN KEY (`store_barber_id`) REFERENCES `ehecd_store_barber111111` (`id`) ON DELETE CASCADE)
+ [ SQL语句 ] : INSERT INTO `ehecd_schedule` (`work_date`,`store_barber_id`,`is_work`) VALUES ('2016-12-01','124','1')
+
+[ 2016-12-30T17:11:15+08:00 ] 127.0.0.1 /Admin/Store/scheduleEdit
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_schedule`, CONSTRAINT `ehecd_schedule_ibfk_1` FOREIGN KEY (`store_barber_id`) REFERENCES `ehecd_store_barber111111` (`id`) ON DELETE CASCADE)
+ [ SQL语句 ] : INSERT INTO `ehecd_schedule` (`work_date`,`store_barber_id`,`is_work`) VALUES ('2016-12-01','124','1')
+
+[ 2016-12-30T17:11:21+08:00 ] 127.0.0.1 /Admin/Store/scheduleEdit
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_schedule`, CONSTRAINT `ehecd_schedule_ibfk_1` FOREIGN KEY (`store_barber_id`) REFERENCES `ehecd_store_barber111111` (`id`) ON DELETE CASCADE)
+ [ SQL语句 ] : INSERT INTO `ehecd_schedule` (`work_date`,`store_barber_id`,`is_work`) VALUES ('2016-12-01','124','1')
+
+[ 2016-12-30T17:21:14+08:00 ] 127.0.0.1 /Admin/Store/scheduleEdit
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_schedule`, CONSTRAINT `ehecd_schedule_ibfk_1` FOREIGN KEY (`store_barber_id`) REFERENCES `ehecd_store_barber111111` (`id`) ON DELETE CASCADE)
+ [ SQL语句 ] : INSERT INTO `ehecd_schedule` (`work_date`,`store_barber_id`,`is_work`) VALUES ('2016-12-01','118','0')
+
+[ 2016-12-30T17:21:24+08:00 ] 127.0.0.1 /Admin/Store/scheduleEdit
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_schedule`, CONSTRAINT `ehecd_schedule_ibfk_1` FOREIGN KEY (`store_barber_id`) REFERENCES `ehecd_store_barber111111` (`id`) ON DELETE CASCADE)
+ [ SQL语句 ] : INSERT INTO `ehecd_schedule` (`work_date`,`store_barber_id`,`is_work`) VALUES ('2016-12-01','118','0')
+
+[ 2016-12-30T17:23:39+08:00 ] 127.0.0.1 /Admin/Barber/edit/id/50
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_store_barber`, CONSTRAINT `ehecd_store_barber_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `ehecd_store11111` (`id`))
+ [ SQL语句 ] : INSERT INTO `ehecd_store_barber` (`store_id`,`barber_id`) VALUES ('24','50')
+
+[ 2016-12-30T17:23:43+08:00 ] 127.0.0.1 /Admin/Barber/edit/id/50
+ERR: 1452:Cannot add or update a child row: a foreign key constraint fails (`jdxtest2`.`ehecd_store_barber`, CONSTRAINT `ehecd_store_barber_ibfk_1` FOREIGN KEY (`store_id`) REFERENCES `ehecd_store11111` (`id`))
+ [ SQL语句 ] : INSERT INTO `ehecd_store_barber` (`store_id`,`barber_id`) VALUES ('24','50')
+

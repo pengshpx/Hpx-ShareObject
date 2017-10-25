@@ -1,0 +1,106 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">优惠码列表</a></li>
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+        优惠码：
+        <input type="text" class="input" v-model="searchCon.code" style="width: 200px;" placeholder="优惠码">
+        昵称：
+        <input type="text" class="input" v-model="searchCon.nickname" style="width: 200px;" placeholder="昵称">
+        获得时间：
+        <input type="text" v-model="searchCon.get_st_time" class="input js-date date" autocomplete="off" placeholder="开始时间">-
+        <input type="text" v-model="searchCon.get_end_time" class="input js-date date" autocomplete="off" placeholder="结束时间">
+        使用时间：
+        <input type="text" v-model="searchCon.use_st_time" class="input js-date date" autocomplete="off" placeholder="开始时间">-
+        <input type="text" v-model="searchCon.use_end_time" class="input js-date date" autocomplete="off" placeholder="结束时间">
+        <input type="button" class="btn btn-primary" @click="mySearch(true)" value="搜索">
+    </form>
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <th>优惠码</th>
+            <th>所属昵称</th>
+            <th>获得时间</th>
+            <th>使用时间</th>
+            <th>状态</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="item in list">
+            <td>{{item.code}}</td>
+            <td>{{item.nickname}}</td>
+            <td>{{item.get_time}}</td>
+            <td>{{item.use_time}}</td>
+            <td>{{item.is_used==1?"已使用":"未使用"}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[],
+            searchCon:{code:'',nickname:'',get_st_time:'',get_end_time:'',use_st_time:'',use_end_time:'',p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            mySearch: function (search) {
+                var data = this.searchCon;
+                if (data.get_st_time!='' && data.get_end_time!='') {
+                    if (data.get_st_time > data.get_end_time) {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "获得时间的开始时间不能大于结束时间", time: 2});
+                        return;
+                    }
+                }
+                if (data.use_st_time!='' && data.use_end_time!='') {
+                    if (data.use_st_time > data.use_end_time) {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "使用时间的开始时间不能大于结束时间", time: 2});
+                        return;
+                    }
+                }
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+</script>
+</body>
+</html>

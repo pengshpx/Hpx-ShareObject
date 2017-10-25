@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html class="back-black">
+<head>
+    <tc_include file="Public:header" />
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+
+</head>
+<body class="back-black ">
+<!--<div class="q-header q-header-color1">
+   &lt;!&ndash; <a href="javascript:history.length>2?history.back():location.href='{:U('Member/index')}';" class="q-pull-left"><i class="fa fa-angle-left"></i></a>&ndash;&gt;
+    <span class="q-title">超剪卡</span>
+</div>-->
+<section>
+    <div class="member">
+        <div class="cart_show">
+            <img src="__TMPL__/Public/img/cart1.png"/>
+        </div>
+    </div>
+    <div class="items pad10 text-center">
+        <a href="{:U('balanceLog')}"  class="fr  under_line  color-fff">超剪卡明细</a>
+        <p>超剪卡折扣：<span class="color-gold">8.5折</span></p>
+        <p>余额：{$money}</p>
+        <p>购买超剪卡<span class="color-gold">赠送金额</span></p>
+        <p>购买超剪卡获得<span class="color-gold">相应折扣</span></p>
+    </div>
+</section>
+
+<div class="look text-center m-t-10" style="padding-bottom: 3rem">
+    <a href="{:U('Member/recharge')}" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">超剪卡充值</a>
+</div>
+<tc_include file="Public:footer" />
+</body>
+<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+</html>

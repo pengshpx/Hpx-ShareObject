@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <tc_include file="Public:header"/>
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style2.css" />
+</head>
+<body>
+<div class="q-header q-header-color1">
+    <a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+    <span class="q-title">邀请朋友</span>
+</div>
+<section class="yq-sec bod-pad">
+    <p class="yq-sec-p p-style">点击右上角分享</p>
+    <p class="yq-sec-p p-style">邀请新朋友，各得20元优惠码</p>
+    <div class="yq-email">
+        <img src="__TMPL__/Public/img/yq-email.png" alt=""/>
+        <div class="yq-email-head">
+            <img src="{$headimgurl?$headimgurl:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>}" alt=""/>
+            <div class="yq-yh">
+                <p class="p-style font-w6">&yen;20元</p>
+                <span></span>
+                <p class="p-style">优惠码</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+</body>
+
+<script>
+    var option = {
+        title:'剪刀侠男士理发',
+        link:'http://'+window.location.host+'/Home/Index/index?superior={$myId}',
+        imgUrl:'http://'+window.location.host+'/logo.png',
+        desc:'注册获得20元优惠码'
+    }
+</script>
+<tc_include file="Public:jsapi"/>
+</html>

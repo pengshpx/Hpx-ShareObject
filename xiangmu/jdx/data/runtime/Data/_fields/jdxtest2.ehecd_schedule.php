@@ -1,0 +1,1 @@
+a:6:{i:0;s:2:"id";i:1;s:9:"work_date";i:2;s:15:"store_barber_id";i:3;s:7:"is_work";s:3:"_pk";s:2:"id";s:5:"_type";a:4:{s:2:"id";s:7:"int(11)";s:9:"work_date";s:4:"date";s:15:"store_barber_id";s:7:"int(11)";s:7:"is_work";s:10:"tinyint(1)";}}

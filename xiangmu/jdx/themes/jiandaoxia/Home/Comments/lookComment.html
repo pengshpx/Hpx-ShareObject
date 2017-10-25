@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="utf-8">
+    <title>剪刀侠</title>
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!--分享使用-->
+    <meta itemprop="name" content="" />
+    <meta itemprop="description" name="description" content="" />
+    <meta itemprop="image" content="img_url" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/global.css">
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style2.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+
+    <script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+    .set_stars img{ margin: 0px 8px;position: relative;top:-2px}
+    	
+    	
+    </style>
+</head>
+<body class="back-222">
+    <div class="q-header q-header-color1">
+        <a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+        <span class="q-title">评价</span>
+    </div>
+    <section class="ypj-sec bod-pad">
+        <div class="pj-div">
+            <div class="yy-div1-div2 bigdiv clearfix border-bottom">
+                <div class="yy-head-img">
+                    <img src="{$info['headimgurl']?$info['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>}" />
+                </div>
+                <div class="yy-write">
+                    <div class="yy-write-left">
+                        <h3 class="color-yello">{$info.barber_name}</h3>
+                        <p>{$info.service_name}</p>
+                        <p><span>{$info.service_time}</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="ypj-sec-div2 clearfix border-bottom">
+                <div class="set_stars hgt60 l-h-60 text-center">
+                    <input type="hidden" value="{$comment.grade}">
+
+                </div>
+            </div>
+        </div>
+        <div class="ypj-sec-div3 border-bottom">
+            <span>{$comment['content']}</span>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+<script type="text/javascript">
+	var img_url={filled:"__TMPL__/Public/img/pingjia1.png",empty:"__TMPL__/Public/img/pingjia2.png"};
+	set_stars($(".set_stars"),img_url,5,25,"show")
+
+</script>
+</html>

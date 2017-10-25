@@ -1,0 +1,15 @@
+<footer class=" footer_back footer">
+
+    <ul class="font0">
+
+        <li <if condition="ACTION_NAME eq 'index' && CONTROLLER_NAME eq 'Index'">class="active"</if>><a href="{:U('Index/index')}">门店</a></li>
+
+        <li <if condition="ACTION_NAME eq 'index' && CONTROLLER_NAME eq 'Order'">class="active"</if>><a href="{:U('Order/index')}">订单</a></li>
+
+        <li <if condition="ACTION_NAME eq 'balance' && CONTROLLER_NAME eq 'Member'">class="active"</if>><a href="{:U('Member/balance')}">超剪卡</a></li>
+
+        <li <if condition="ACTION_NAME eq 'index' && CONTROLLER_NAME eq 'Member'">class="active"</if>><a href="{:U('Member/index')}">我的</a></li>
+
+    </ul>
+
+</footer>

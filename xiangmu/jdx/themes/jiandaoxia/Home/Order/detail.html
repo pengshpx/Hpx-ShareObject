@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html class="back-black">
+<head>
+	<meta charset="utf-8">
+	<title>CUTMAN男士理发</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+</head>
+<body class="back-black">
+	<div class="q-header q-header-color1">
+		<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+		<span class="q-title">我的预约</span>
+	</div>
+	<section class="bod-pad">
+		<div class="hairdresser back-222 pad15 ">
+			<div class="left_mid15" style="background-image: url({$order['headimgurl']?$order['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>});">
+			</div>
+			<div class="person_con">
+			    <a href="tel:{$order.barber_tel}" class="fr"><img src="__TMPL__/Public/img/tel2.png" /></a>
+				<h4 class="wid80 color-gold font14 hgt35 l-h-35">{$order.barber_name}</h4>
+				<p class="font14">{$order.service_name}</p>
+				<p class="font14">{$order.service_time}</p>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="item_list p_both15 back-222 b-b-333 m-b-10">
+			<table width="100%" cellspacing="0">
+				<tr>
+					<th class="b-t-1"><img src="__TMPL__/Public/img/slice/book2.png" /> 预约状态</th>
+					<td  class="b-t-1" style="width: 60%;">{$statusShow[$order['status']]}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/book1.png" /> 预约单号</th>
+					<td>{$order.order_id}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/time2.png" /> 支付时间</th>
+					<td>{$order.pay_success_time}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/tel3.png" /> 预约电话</th>
+					<td>{$order.tel}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="item_list p_both15 back-222 b-b-333 m-b-10">
+			<table width="100%" cellspacing="0">
+				<tr>
+					<th ><img src="__TMPL__/Public/img/slice/fangzi1.png" /> 店铺名称</th>
+					<td  style="width: 60%;">{$order.store_name}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/position.png" /> 详细地址</th>
+					<td>{$order.address}</td>
+				</tr>
+			</table>
+		</div>
+		<div class="item_list p_both15 back-222 b-b-333 m-b-10">
+			<table width="100% " cellspacing="0">
+				<tr>
+					<th ><img src="__TMPL__/Public/img/slice/money.png" /> 应付金额</th>
+					<td  style="width: 60%;">{$order.total_price}元</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/qianbao.png" /> 支付方式</th>
+					<td>{$order.pay_name}</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/money2.png" /> 优惠码抵扣</th>
+					<td>{$order.coupon_money}元</td>
+				</tr>
+				<tr>
+					<th><img src="__TMPL__/Public/img/slice/money3.png" /> 实付金额</th>
+					<td>{$order.pay_price}元</td>
+				</tr>
+			</table>
+		</div>
+		<if condition="$order.status eq 2">
+			<div class="item_list p_both15 back-222 b-b-333 ">
+				<table width="100%" cellspacing="0">
+					<tr>
+						<th><img src="__TMPL__/Public/img/slice/time2.png" /> 服务开始时间</th>
+						<td>{$order.service_start_time}</td>
+					</tr>
+					<tr>
+						<th><img src="__TMPL__/Public/img/slice/time2.png" /> 服务结束时间</th>
+						<td>{$order.service_end_time}</td>
+					</tr>
+				</table>
+			</div>
+		</if>
+		<if condition="$order.status eq 0 or $order.status eq 3">
+			<div class="item_list p_both15 back-222 b-b-333">
+				<table width="100%" cellspacing="0">
+					<tr>
+						<th><img src="__TMPL__/Public/img/slice/money3.png" /> 退款金额</th>
+						<td>{$order.refund_price}元</td>
+					</tr>
+					<tr>
+						<th><img src="__TMPL__/Public/img/slice/time2.png" /> <if condition="$order['status'] eq 0">关闭</if><if condition="$order['status'] eq 3">失效</if>时间</th>
+						<td>{$order.close_time}</td>
+					</tr>
+				</table>
+			</div>
+		</if>
+	</section>
+	<section>
+		<if condition="$order.status eq 1">
+			<div class="text-center p-v-20">
+				<a href="{:U('orderCancel')}/orderId/{$order.order_id}" class="border-gold color-gold hgt35 l-h-35 p_both20 radius4 font16 inline_div button_active">取消订单</a>
+				<p class="hgt35 l-h-35 color-alert">温馨提示：离预约开始时间少于12小时不支持退款</p>
+			</div>
+		</if>
+		<if condition="$order.status eq 2 && $order.is_comment eq 0">
+			<div class="text-center p-v-20">
+				<a href="{:U('Comments/index')}/orderId/{$order.order_id}" class="border-gold color-gold hgt35 l-h-35 p_both20 radius4 font16 inline_div button_active">评价</a>
+			</div>
+		</if>
+		<if condition="$order.status eq 2 && $order.is_comment eq 1">
+			<div class="text-center p-v-20">
+				<a href="{:U('Comments/lookComment')}/orderId/{$order.order_id}" class="border-gold color-gold hgt35 l-h-35 p_both20 radius4 font16 inline_div button_active">我的评价</a>
+			</div>
+		</if>
+	</section>
+</body>
+<script type="text/javascript">
+	var img_url={filled:"img/pingjia1.png",empty:"img/pingjia2.png"};
+	set_stars($(".set_stars"),img_url,5,20,"show")
+</script>
+</html>

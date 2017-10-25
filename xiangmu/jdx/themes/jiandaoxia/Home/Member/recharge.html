@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+<html>
+
+<head lang="en">
+
+    <tc_include file="Public:header"/>
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style2.css"/>
+
+    <style>
+
+        input[type=radio] {
+
+            display: none;
+
+        }
+
+
+
+        .cz-sring input {
+
+            font-size: .36rem;
+
+            font-weight: bold;
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="cz-body">
+
+    <div class="q-header q-header-color1">
+
+        <a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+
+        <span class="q-title">充值金额</span>
+
+    </div>
+
+    <section class="cz-sec bod-pad">
+
+        <div class="cz-sec-div1 border-bottom">
+
+            <p>请选择充值额度</p>
+
+            <div class="cz-sring">
+
+                <span>充值账户：</span><input readonly type="text" value="{$nickname}"/>
+
+            </div>
+
+            <div class="cz-sring">
+
+                <span>剩余额度：</span><input readonly type="text" value="{$money}"/>
+
+            </div>
+
+        </div>
+
+        <div class="cz-sec-div2 cz-sec-small border-bottom">
+
+            <p>充值额度</p>
+
+            <div class="cz-money cz-sec-small clearfix">
+
+                <ul>
+
+                    <volist name="lists" id="item">
+
+                        <li class="cz-jine">
+
+                            <label for="check{$key}" class="icheck">
+
+                                <input type="radio" id="check{$key}" name="xz"/>
+
+                                <div onclick="select({$item.id})">
+
+                                    <p>{$item.price}元</p>
+
+                                    <p>到账：{$item['price']+$item['donate']}元</p>
+
+                                </div>
+
+                            </label>
+
+                        </li>
+
+                    </volist>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+        <div class="cz-sec-div3 cz-sec-small">
+
+            <p>注：充值超剪卡不支持提现；可用于所有理发师预约，预约折扣8.5折。</p>
+
+        </div>
+
+    </section>
+
+</div>
+
+</body>
+
+<script src="__TMPL__/Public/layer/layer.js"></script>
+
+<script>
+
+    var layerIndex = 0;
+
+    $(function () {
+
+
+
+    })
+
+    function select(id) {
+
+        if (layerIndex > 0) {
+
+            return;
+
+        }
+
+        $.ajax({
+
+            url: "{:U('Pay/recharge_wxpay')}",
+
+            data: {id: id},
+
+            type: "POST",
+
+            beforeSend: function () {
+
+                layerIndex = layer.open({type: 2})
+
+            },
+
+            success: function (res) {
+
+                if (res.status == 1) {
+                    if (typeof WeixinJSBridge == "undefined") {
+
+                        if (document.addEventListener) {
+
+                            document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+
+                        } else if (document.attachEvent) {
+
+                            document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+
+                            document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+
+                        }
+
+                    } else {
+                        onBridgeReady(res.info);
+
+                    }
+
+                } else {
+
+                    layer.open({content: res.info})
+
+                }
+
+            },
+
+            error: function () {
+
+                alert('发生未知错误');
+
+            },
+
+            complete: function () {
+
+                layer.close(layerIndex);
+
+                layerIndex = 0;
+
+            }
+
+        })
+
+    }
+
+    function onBridgeReady(obj) {
+        WeixinJSBridge.invoke('getBrandWCPayRequest', obj, function (res) {
+                    if (res.err_msg == "get_brand_wcpay_request:ok") {
+
+                        layer.open({content: '充值成功',time:3,shadeClose:false})
+
+                        setTimeout(function () {
+
+                            location.reload();
+
+                        },2000)
+
+
+
+                    } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+
+                        layer.open({content: '取消充值',time:3})
+
+                    } else {
+
+                        layer.open({content: '充值失败',time:3})
+
+                    }
+
+                }
+
+        );
+
+    }
+
+
+
+</script>
+
+</html>

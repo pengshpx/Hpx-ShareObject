@@ -1,0 +1,40 @@
+<?php
+return array (
+  'app' => 'Admin',
+  'model' => 'Goods',
+  'action' => 'default',
+  'data' => '',
+  'type' => '0',
+  'status' => '1',
+  'name' => '商品管理',
+  'icon' => 'cubes',
+  'remark' => '',
+  'listorder' => '0',
+  'children' => 
+  array (
+    array (
+      'app' => 'Admin',
+      'model' => 'Goods',
+      'action' => 'index',
+      'data' => '',
+      'type' => '1',
+      'status' => '1',
+      'name' => '商品列表',
+      'icon' => '',
+      'remark' => '',
+      'listorder' => '0',
+    ),
+    array (
+      'app' => 'Admin',
+      'model' => 'Goods',
+      'action' => 'goods_cate',
+      'data' => '',
+      'type' => '1',
+      'status' => '1',
+      'name' => '商品分类',
+      'icon' => '',
+      'remark' => '',
+      'listorder' => '0',
+    ),
+  ),
+);

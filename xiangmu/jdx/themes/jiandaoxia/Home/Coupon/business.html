@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html style="background-color: #222222">
+<head lang="en">
+    <tc_include file="Public:header" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style2.css" />
+    <link rel="stylesheet" href="__TMPL__Public/css/libaos.css"/>
+    <script src="__TMPL__Public/script/common.js"></script>
+    <style>
+        html{
+            position: relative;
+        }
+    </style>
+</head>
+<body style="background-color: #222222">
+
+<!--头像区-->
+<div class="headHouse">
+    <div class="wordBox">
+        <h3>恭喜您获得{$info.money|intval}元新用户理发券</h3>
+        <span style="color:#f3a114">请输入您的手机号码领取，并在微信里关注"CUTMAN男士理发"，在【我的/优惠码】栏目可以看到，在下单结算时可直接使用。</span> </div>
+    <div style="clear: both"></div>
+
+
+</div>
+
+<!--红包区-->
+<div class="redHouse">
+    <div class="redBox">
+        <input type="text" name="phone" id="phone" class="shurushouji" placeholder="请输入手机号码"/>
+        <a href="#" id="btn_submit" class="lingqured">领取</a>
+
+        <!--二维码黑球-->
+        <div class="erweimaHouse">
+            <div class="erweima"><img src="__TMPL__Public/img/erweiWorld.jpg" style="display: block;width: 100%;height: 100%" alt=""/></div>
+        </div>
+        <img src="__TMPL__Public/img/sigebi.png" class="sigebi" alt=""/>
+        <img src="__TMPL__Public/img/yigevbi.png" class="yigebi" alt=""/>
+    </div>
+</div>
+<img src="__TMPL__Public/img/bangebi.png" class="bangebi" alt=""/>
+
+
+<!--超级二维码-->
+<div class="mengbanBoss">
+    <img src="__TMPL__Public/img/erweiWorld.jpg" class="bigBoss" alt="gg"/>
+</div>
+
+<script>
+    $(document).ready(function(){
+        function redInit(){
+            $(".mengbanBoss").eq(0).hide();
+            $(".mengbanBoss").eq(0).bind("click",function(){
+                $(this).hide();
+            })
+            $(".erweima").eq(0).bind("click",function(){
+                $(".mengbanBoss").eq(0).show();
+            })
+        }
+        redInit();
+    })
+</script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script>
+    $("#btn_submit").click(function(){
+        var mobile=$("#phone").val();
+        var bid="{$info.id}";
+        var money="{$info.money}";
+        var loadingIndex = 0;
+        $.ajax({
+            url:"{:U('get_coupon')}",
+            data:{mobile:mobile,bid:bid},
+            type:"POST",
+            dataType:"json",
+            beforeSend: function () {
+                loadingIndex = layer.open({type:2,shadeClose:false});
+            },
+            success: function (res) {
+                layer.close(loadingIndex);
+                if (res.status == 0) {
+                    layer.open({content:res.info,time:2,shadeClose:false});
+                }
+                if (res.status == 1) {
+                    location.href = "{:U('do_success')}/mobile/"+mobile+'/money/'+money;
+                }
+            },
+            error: function () {
+                layer.close(loadingIndex);
+                layer.open({content:"请求失败，请重试",time:3});
+            }
+        })
+    })
+</script>
+</body>
+</html>
+

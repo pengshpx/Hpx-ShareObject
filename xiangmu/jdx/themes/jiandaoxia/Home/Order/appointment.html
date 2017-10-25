@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>CUTMAN男士理发</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css" />
+	
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+</head>
+<body class="back-black p-b-50" id="app">
+	<div class="q-header q-header-color1">
+		<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+		<span class="q-title">预约</span>
+	</div>
+	<section   class="pad10 m-b-10 bod-pad">
+		<div class="hairdresser_touxiang back-222 p-v-10">
+			<div class="touxiang  back-222 p_both10">
+				<div v-cloak class="photo" style="background-image: url({$barber['headimgurl']?$barber['headimgurl']:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>});left: 10px;">
+				</div>
+				<div class="person_con ">
+					<h4 class="color-gold hgt25 l-h-25 font14">{$barber.name}</h4>
+					<p class="l-h-20 font14 "><img v-cloak src="__TMPL__Public/img/slice/shouji1.png" height="22px" class="vertical_mid m-r-5"/>{$barber.tel}</p>
+					<div class="set_stars hgt25 l-h-25">
+						<input v-cloak type="hidden"  value="{$barber.stars}" />
+					</div>
+					<p v-cloak class="l-h-20 font14">{$barber.service_num}单</p>
+				</div>
+			</div>
+			<div class="service_style pad10">
+				<h5 class="font14">服务类型</h5>
+				<ul>
+					<li v-cloak v-for="item in services">
+						<label><input type="radio" class="hide" :checked="$index==0?true:false" name="style" v-model="serviceKey" :value="$index"> <span>{{item.name}}{{item.price}}元</span></label>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</section>
+	<section class="class_items  swiper-container text-center p_both10 back-222">
+		<div class="items_list swiper-wrapper">
+			<a v-cloak v-for="item in nextWeek" @click="selectDay($index)" href="javascript:;" class="swiper-slide">
+				<p :class="$index == selectDayKey ? 'active-time' : ''">{{item.w}}</p>
+				<span>{{item.date}}</span>
+			</a>
+		</div>
+	</section>
+	<section style="margin-bottom: 60px;">
+		<div class="time_choice back-222 p-v-10">
+			<span v-cloak v-for="item in nextWeek[selectDayKey].times" @click="selectTime($index,item.is_busy)" :style="item.time=='10:00' || item.time=='11:00' || item.time=='21:00' ?'display:none':''" :class="item.is_busy == 1 ? 'no' : ''" v-if="item.time != '17:00'">
+				<i>
+				<em>{{item.time}}</em>
+				<em>{{item.is_busy == 1  ? '不可预约' : '可预约'}}</em>
+				</i>
+			</span>
+		</div>
+	</section>
+	<div class="go_yuyue   p-v-10 back-black p_both10">
+	 <span class="color-gold vertical_mid left_mid10 font14 wid60">{{totalPrice}}元<i class="color-fff">(会员价：{{memberPrice}}元)</i></span>
+	 <a href="javascript:;" @click="orderConfirm" class="color-gold hgt35 l-h-35 p_both15 radius4 font16 inline_div button_active border-gold vertical_mid   ">预约</a>
+	</div>
+	<div class="give_tel text-center">
+		<span class="fa fa-close fr font18"></span>
+		<div class="form back-222 p-v-10 p_both20">
+			<h4 class="font16 color-fff">联系人手机</h4>
+			<input class="font14" type="text" v-model="mobile" placeholder="请输入手机号码"/>
+			<p></p>
+			<a href="javascript:;" @click="saveMobile" class="color-gold hgt35 l-h-35 p_both15 radius4 font16 inline_div button_active border-gold vertical_mid   ">确认</a>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el: "#app",
+		data: {
+			services: {$services ? $services : "[]"},
+			nextWeek: {$nextWeek ? $nextWeek : "[]"},
+			options: {
+				barber_id: {$barber['id'] ? $barber['id'] : 0},
+				service_id: "",
+				service_time: ""
+			},
+			mobile:"{$mobile ? $mobile : ''}",
+			mobileIsSubmit:0,
+			serviceKey:null,
+			selectDayKey: 0,
+			selectTimeKey: null,
+			totalPrice: 0,
+			memberPrice: 0,
+			jumpUrl:""
+		},
+		watch:{
+			'serviceKey': function () {
+				this.options.service_id = this.services[this.serviceKey].id;
+				this.totalPrice = this.services[this.serviceKey].price;
+				this.memberPrice = (this.totalPrice*0.85).toFixed(2);
+			}
+		},
+		methods: {
+			selectDay: function (index) {
+				this.selectDayKey = index;
+				this.selectTimeKey = null;
+				this.options.service_time = "";
+			},
+			selectTime: function (index,is_busy) {
+				if (is_busy == 0) {
+					this.selectTimeKey = index;
+				}
+			},
+			orderConfirm: function () {
+				var Ymd = "";
+				var His = "";
+				var options = this.options;
+				if (options.service_id == '') {
+					layer.open({content:"请选择服务类型",time:2,shadeClose:false});
+					return;
+				}
+				if (this.selectTimeKey == null) {
+					layer.open({content:"请选择预约时间",time:2,shadeClose:false});
+					return;
+				}
+				Ymd = this.nextWeek[this.selectDayKey].fullDate;
+				His = this.nextWeek[this.selectDayKey].times[this.selectTimeKey].time;
+				options.service_time = Ymd+" "+His;
+				this.jumpUrl = "{:U('orderConfirm')}/barber_id/"+options.barber_id+"/service_id/"+options.service_id+"/service_time/"+options.service_time;
+				if (this.mobileIsSubmit == 0) {
+					$(".give_tel").css("left","0");
+					return;
+				}
+				location.href = this.jumpUrl;
+			},
+			saveMobile: function () {
+				var reg = /^(1[3,4,5,7,8][0-9]\d{8})$/;
+				var mobile = this.mobile;
+				if (!reg.test(mobile)) {
+					layer.open({content:"手机号格式不正确",time:2,shadeClose:false});
+					return;
+				}
+				var loadingIndex = 0;
+				$.ajax({
+					url:"{:U('Member/saveMobile')}",
+					data:{mobile:mobile},
+					type:"POST",
+					dataType:"json",
+					beforeSend: function () {
+						loadingIndex = layer.open({type:2,shadeClose:false});
+					},
+					success: function (res) {
+						if (res.status == 1) {
+							location.href = app.jumpUrl;
+						}else {
+							layer.open({content:res.info,time:3});
+						}
+					},
+					error: function () {
+						layer.open({content:"请求失败，请重试",time:3});
+					},
+					complete: function () {
+						layer.close(loadingIndex);
+					}
+				})
+			}
+		},
+		created: function () {
+			if (this.mobile != '') {
+				this.mobileIsSubmit = 1;
+			}
+		}
+	});
+</script>
+<link rel="stylesheet" href="__TMPL__Public/css/swiper.min.css" />
+<script type="text/javascript" src="__TMPL__Public/lib/swiper.min.js"></script>
+<script type="text/javascript">
+	var img_url={filled:"__TMPL__Public/img/pingjia1.png",empty:"__TMPL__Public/img/pingjia2.png"};
+
+	set_stars($(".set_stars"),img_url,5,18,"show");
+	var mySwiper = new Swiper ('.swiper-container', {
+		direction: 'horizontal',
+		pagination: '.swiper-pagination',
+		paginationClickable: true,
+		//spaceBetween: 5,
+		//loop:true,
+		slidesPerView: 6
+	});
+	$(".time_choice").click(function(e){
+		if($(e.target).parents("span:not('.no')").length)
+		{
+			$(e.target).parents("span:not('.no')").addClass("active").siblings().removeClass("active");
+		}
+	});
+	$(".give_tel").find("span:first").click(function(){
+		$(".give_tel").css("left","100%")
+	})
+</script>
+</html>

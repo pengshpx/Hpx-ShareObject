@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>剪刀侠</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+	<style type="text/css">
+		img[src^='http://img.baidu.com']{width:auto;}
+	</style>
+</head>
+<body class="back-black">
+	<div class="q-header q-header-color1">
+		<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+		<span class="q-title">店铺详情</span>
+	</div>
+	<section>
+		<div class="shop_list bod-pad">
+			<ul>
+				<li class="back-222 b-b-333 ">
+					<a href="javascript:;">
+						<img src="{$info.pic}"/>
+					</a>
+					<div class="shop_con p_both15">
+						<div class="shop_name ">
+							<h4 class="inline_div wid100 color-fff font14">{$info.name}</h4>
+						</div>
+						<div class="address_con l-h-25 p-v-5">
+							<h5 class="color-gray font14">{$info.open_time}-{$info.close_time}</h5>
+							<p >{$info.address}</p>
+							<p>{$info.tel}</p>
+						</div>	
+					</div>
+				</li>
+			</ul>
+	   </div>
+	</section>
+	<section>
+		<div class="intruduction_con pad10 p-b-no">
+			<div class="shop_show back-222">
+				<div class="title p_both10 hgt30 l-h-30 color-gold font12 back-333 bgimg_left"></div>
+				<div class="img_list pad10 back-222">
+					<volist name="info.pic_list" id="vo">
+						<img src="{$vo}"/>
+					</volist>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="intruduction_con pad10 ">
+			<div class="shop_text ">
+				<div class="title p_both10 hgt30 l-h-30 color-gold font12 back-333 bgimg_left"></div>
+			</div>
+			<div class="edit_area pad10 back-222">{$info.details}</div>
+		</div>
+	</section>
+</body>
+<script type="text/javascript">
+	var img_url={filled:"img/pingjia1.png",empty:"img/pingjia2.png"};
+//	set_stars($(".set_stars"),img_url,5,18,"show")
+</script>
+</html>

@@ -1,0 +1,194 @@
+<admintpl file="header" />
+<style type="text/css">
+    .replyBorder{
+        width: 400px!important;
+        max-width: 400px;
+        height: 200px;
+        max-height: 200px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">评论列表</a></li>
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+        单号：
+        <input type="text" class="input" v-model="searchCon.orderId" placeholder="单号">
+        理发师：
+        <input type="text" v-model="searchCon.barberName" class="input" placeholder="理发师">
+        会员：
+        <input type="text" v-model="searchCon.memberName" class="input" placeholder="会员">
+        星级：
+        <select v-cloak v-model="searchCon.grade">
+            <option v-for="item in grades" :value="item.value">{{item.name}}</option>
+        </select>
+        <input type="button" class="btn btn-primary" @click="mySearch(true)" value="搜索">
+    </form>
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <th>评价单号</th>
+            <th>评价会员</th>
+            <th>评价时间</th>
+            <th>星级</th>
+            <th>评价内容</th>
+            <th>回评内容</th>
+            <th>评价理发师</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in list">
+            <td style="width: 7%">{{item.order_id}}</td>
+            <td style="width: 10%">{{item.nickname}}</td>
+            <td style="width: 10%">{{item.create_time}}</td>
+            <td style="width: 10%">{{item.grade}}</td>
+            <td style="width: 20%;word-break: break-all;">{{item.content}}</td>
+            <td style="width: 20%;word-break: break-all;">{{item.reply}}</td>
+            <td style="width: 10%">{{item.name}}</td>
+            <td style="width: 13%">
+                <a class="btn btn-small btn-warning" v-if="item.reply == null" @click="replyClick(item.id)">回评</a>
+                <a class="btn btn-small btn-danger" @click="del(item.id)">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+    <div id="replyModal"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>评论回复</h3>
+        </div>
+        <div class="modal-body">
+            <div class="page-header">
+                <div class="row-fluid">
+                    <div class="span2 text-right">回复内容：(200字以内)</div>
+                    <div class="span4">
+                        <textarea v-model="returnComments.reply" class="replyBorder"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn" @click="replyCancel">取消</button>
+            <button class="btn btn-success" @click="replySubmit">确认回复</button>
+        </div>
+    </div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[],
+            grades:[
+                {name:"1星",value:1},
+                {name:"2星",value:2},
+                {name:"3星",value:3},
+                {name:"4星",value:4},
+                {name:"5星",value:5},
+                {name:"全部",value:0}
+            ],
+            searchCon:{orderId:'',barberName:'',memberName:'',grade:0,p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            returnComments:{id:0,reply:''}
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            mySearch: function (search) {
+                var data = this.searchCon;
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            },
+            replyClick: function (id) {
+                this.returnComments.id = id;
+                $("#replyModal").modal();
+            },
+            replyCancel: function () {
+                this.returnComments = {id:0,reply:''};
+                $("#replyModal").modal('hide');
+            },
+            replySubmit: function () {
+                var data = this.returnComments;
+                if (data.reply == '') {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: "回复内容不能为空", time: 2});
+                    return;
+                }
+                if (data.reply.length >200) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: "回复内容不能超过200个字符", time: 2});
+                    return;
+                }
+                $.ajax({
+                    url:"{:U('reply_post')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: res.info, time: 2});
+                        if (res.status == 1) {
+                            app.returnComments = {id:0,reply:''};
+                            $("#replyModal").modal('hide');
+                            $.each(app.list, function (k,v) {
+                                if(app.list[k].id == data.id){
+                                    app.list[k].reply = data.reply;
+                                }
+                            });
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            },
+            del: function (id) {
+                var msg = "确定要删除吗？";
+                $.dialog({id: 'popup', lock: true,icon:"question", content: msg, cancel: true, ok: function () {
+                    $.getJSON("{:U('del')}",{id:id},function (res) {
+                        $.dialog({id: 'popup', lock: true, content: res.info, time: 2});
+                        if(res.status == 1){
+                            $.each(app.list, function (k,v) {
+                                if(app.list[k].id == id){
+                                    app.list.$remove(app.list[k]);
+                                }
+                            });
+                        }
+                    })
+                }});
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+</script>
+</body>
+</html>

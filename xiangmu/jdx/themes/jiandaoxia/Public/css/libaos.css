@@ -1,0 +1,284 @@
+.headHouse{
+    width: 100%;
+    margin-top: 0.625rem;
+    box-sizing: border-box;
+    padding: 0px 0.281rem;
+    position: relative;
+}
+.headleft{
+    width: 1.25rem;
+    float: left;
+    position: relative;
+    height: 1.5rem;
+}
+.touxiang{
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    display: block;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50px;
+}
+.headHouse .wordBox{
+    width: 6.78rem;
+    line-height: 0.625rem;
+    color: #dab96a;
+    font-size: 14px;
+    background-color: black;
+    padding: 0.47rem 0.4rem;
+    position: relative;
+    margin-left: 0.42rem;
+    border-radius: 3px;
+    margin: 0px auto;
+}
+.sanjiaoxing{
+    display: block;
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 5px solid black;
+    border-bottom: 5px solid transparent;
+    left: -5px;
+    top: 0.7rem;
+}
+
+/**redHouse*/
+.redHouse{
+    width: 100%;
+    margin-top: 0.67rem;
+}
+.redBox{
+    width: 7.28rem;
+    height: 8.9rem;
+    background-image: url("../img/redgoujia.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0px auto;
+    position: relative;
+}
+.shurushouji{
+    width: 6.3rem;
+    height: 0.93rem;
+    background-color: white;
+    display: block;
+    position: absolute;
+    text-align: center;
+    border: none;
+    font-size: 12px;
+    color: #b0b0b0;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 4.3rem;
+    border-radius: 5px;
+}
+.lingqured{
+    display: block;
+    width: 6.3rem;
+    height: 0.93rem;
+    color: #ffffff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 0.93rem;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 5.54rem;
+    background-color: #dab96a;
+    border-radius: 5px;
+}
+
+
+/**¶þÎ¬ÂëºÚÇò*/
+.erweimaHouse{
+    width: 2.8rem;
+    height: 2.8rem;
+    position: absolute;
+    background-color: #2b2b2b;
+    border-radius: 50%;
+    bottom: -1rem;
+    right: -0.33rem;
+    box-sizing: border-box;
+    border: 1px solid #393939;
+    padding-top: 0.53rem;
+    z-index: 2000;
+}
+.erweima{
+    width: 1.625rem;
+    height: 1.625rem;
+    background-color: white;
+    margin: 0px auto;
+}
+.sigebi{
+    display: block;
+    position: absolute;
+    width: 1.85rem;
+    height: 1.04rem;
+    right: -0.46rem;
+    bottom: -1.16rem;
+    z-index: 2500;
+}
+.yigebi{
+    display: block;
+    position: absolute;
+    width: 1.17rem;
+    height: 0.79rem;
+    left: 0.156rem;
+    bottom: -1.68rem;
+}
+.bangebi{
+    display: block;
+    width: 1.17rem;
+    height: 0.39rem;
+    position: fixed;
+    bottom: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+
+
+
+/**ºì°ü  ¿ª*/
+.redBox2{
+    background-image: url("../img/hongbaohou.png");
+}
+
+.inBox{
+    width: 6.671rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ebe3d1;
+    box-sizing: border-box;
+    padding:0.625rem 0 0;
+    position: absolute;
+}
+
+.f1{
+    width: 100%;
+    height: 1.65rem;
+}
+.libaoBox{
+    width: 4.92rem;
+    height: 1.625rem;
+    background-image: url("../img/jiangquan_01.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    margin: 0px auto;
+    position: relative;
+}
+.libaoBoxLeft{
+    font-size: 12px;
+    color: #fff6e2;
+    position: absolute;
+    width: 20px;
+    line-height: 14px;
+    left: 0.6rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.libaoBoxRight{
+    font-size: 42px;
+    position: absolute;
+    color: #e2c04e;
+    top:50%;
+    right: 0.6rem;
+    transform: translateY(-50%);
+    font-weight: 600;
+}
+
+
+
+.haoma{
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #333333;
+    margin-top: 10px;
+}
+.guanzhujiandaoxia{
+    display: inline-block;
+    /*width: 2.7rem;*/
+    height: 0.937rem;
+    line-height: 0.937rem;
+    font-size: 12px;
+    color: #ffffff;
+    background-color: #dab96a;
+    text-align: center;
+    border-radius: 5px;
+    /*margin: 0.46rem auto 0;*/
+    margin-top: 0.46rem;
+    padding: 0px 9px;
+}
+.inBox2{
+    transition: all 1.2s;
+    z-index: 1000;
+    top: 2rem;
+    text-align: center;
+}
+
+
+.howToUse{
+    height: 15px;
+    position: absolute;
+    text-align: center;
+    top: 6.8rem;
+    z-index: 5000;
+    width: 100%;
+}
+.howToUse a{
+    font-size: 12px;
+    color: #eda89c;
+    text-decoration: underline;
+}
+
+/*paohui*/
+.paohui{
+    width: 6.671rem;
+    left: 50%;
+    height: 3.125rem;
+    top: 3.3rem;
+    transform: translateX(-50%);
+    background-color: #ebe3d1;
+    /*background-color: yellow;*/
+    box-sizing: border-box;
+    position: absolute;
+    z-index: 100;
+}
+
+/*paohui2*/
+.paohui2{
+    width: 100%;
+    background-image: url("../img/paohui2.png");
+    background-size: 100%;
+    height: 4.17rem;
+    position: absolute;
+    z-index: 1500;
+    top:3.28rem;
+}
+
+
+/**³¬¼¶¶þÎ¬Âë*/
+.mengbanBoss{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,.5);
+    z-index: 5000;
+    top: 0px;
+    left: 0px;
+}
+.bigBoss{
+    position: absolute;
+    display: block;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translateY(-50%) translateX(-50%);
+    -moz-transform: translateY(-50%) translateX(-50%);
+    -ms-transform: translateY(-50%) translateX(-50%);
+    -o-transform: translateY(-50%) translateX(-50%);
+    transform: translateY(-50%) translateX(-50%);
+    width: 6.71rem;
+    height: 6.71rem;
+}

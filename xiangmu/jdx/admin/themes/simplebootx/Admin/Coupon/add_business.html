@@ -1,0 +1,174 @@
+<admintpl file="header"/>
+
+
+<script src="__PUBLIC__/js/vue.js"></script>
+
+</head>
+
+<body>
+
+<div class="wrap" id="app">
+
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('coupon_business')}">商家链接列表</a></li>
+        <if condition="ACTION_NAME eq 'add_business'">
+
+            <li class="active"><a href="javascript:;">生成推广链接</a></li>
+
+            <else/>
+            <li class="active"><a href="javascript:;">编辑推广链接</a></li>
+
+        </if>
+
+
+
+    </ul>
+
+
+
+    <form class="form-horizontal" method="post" @submit.prevent="onSubmit" >
+
+        <input type="hidden" name="id" value="{{business.id}}">
+
+        <div class="control-group">
+
+            <label class="control-label" for="name">商家名称*：</label>
+
+            <div class="controls">
+
+                <input type="text" maxlength="30" name="name" v-model="business.name" id="name"  required>
+
+            </div>
+
+        </div>
+
+        <div class="control-group">
+
+            <label class="control-label" for="tel">优惠码金额*：</label>
+
+            <div class="controls">
+
+                <input type="text" name="money" autocomplete="off"  maxlength="11" v-model="business.money"   required>
+
+            </div>
+
+        </div>
+
+
+        <div class="control-group">
+
+            <div class="controls">
+                <if condition="ACTION_NAME eq 'add_business'">
+                    <input type="submit" class="btn btn-primary" value="生成链接"/>
+                    
+                    <else/>
+                    <input type="submit" class="btn btn-primary" value="保存"/>
+
+
+                </if>
+
+
+            </div>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+
+<script src="__PUBLIC__/js/common.js"></script>
+
+<script src="__PUBLIC__/js/content_addtop.js"></script>
+
+<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+
+<script>
+
+
+
+    var app = new Vue({
+
+        el:"#app",
+
+        data:{
+
+            business:{
+
+                name:'',
+
+                money:''
+            }
+
+        },
+
+        created:function () {
+
+            <present name="info">
+
+                this.business = {$info}
+
+            </present>
+
+        },
+
+        methods:{
+
+            onSubmit:function () {
+
+                $.ajax({
+
+                    url:location.href,
+
+                    data:this.business,
+
+                    type:"POST",
+
+                    dataType:"json",
+
+                    success:function (res) {
+
+                        if(res.status==1){
+
+                            art.dialog({
+
+                                id: 'popup',
+
+                                icon: 'succeed',
+
+                                lock: true,
+
+                                content: res.info,
+
+                                time: 2,
+
+                                cancel:false,
+
+                                close:function () {
+
+                                location.href="{:U('coupon_business')}"
+
+                            }});
+
+                        }else{
+
+                            art.dialog({id: 'popup', lock: true, content: res.info, time: 2});
+
+                        }
+
+                    }
+
+                })
+
+            }
+
+        }
+
+    })
+
+</script>
+
+</body>
+
+</html>

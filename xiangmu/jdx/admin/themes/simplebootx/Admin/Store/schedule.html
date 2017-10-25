@@ -1,0 +1,231 @@
+<admintpl file="header"/>
+<link  href="__PUBLIC__/js/datepicker2/datepicker.min.css" rel="stylesheet">
+<script src="__PUBLIC__/js/vue.js"></script>
+<style>
+    #month{
+        color: #cad2d3;
+        cursor: default;
+        background-color: #FFFFFF;
+        border:1px solid #dce4ec;
+    }
+    .table-bordered td{
+        width: 100px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap " id="schedule-app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="javascript:;">店铺排班表</a></li>
+    </ul>
+    <form class="well form-search ">
+        店铺：
+        <select v-model="search.store_id">
+            <volist name="stores" id="item">
+                <option <if condition="$key eq 0">selected</if> value="{$item.id}">{$item.name}</option>
+            </volist>
+        </select>
+        日历：
+        <input type="text" readonly id="month" v-model="search.month" style="width: 120px;" autocomplete="off">
+
+        <input type="button" class="btn btn-primary" @click="searchFun" value="查询">
+        <input type="button" class="btn btn-success" @click="export" value="导出">
+    </form>
+    <div class="container">
+        <div class="row" >
+            <div class="span12 text-center" v-show="createNew">该月店铺还未排班，<a class="btn btn-small" @click.stop.prevent="create">点击排班</a> </div>
+            <div class="span12" v-if="lists.length>0">
+                <table class="table table-bordered table-hover">
+                    <tr>
+                        <th  v-for="title in titles">{{ $index==0?title.month+'月':title.barber_name }}</th>
+                    </tr>
+                    <tr v-for="item in lists">
+                        <td >{{item.work_date}}（{{item.work_date|week}}）</td>
+                        <td v-for="title2 in titles" v-if="$index>0" @click="changeWork(item,title2.barber_id)">
+                            <i :class="item['barber_'+title2.barber_id]==1?'icon-ok':'icon-remove'" ></i>
+                        </td>
+                    </tr>
+                </table>
+                <div class="span12 text-center">
+                    <button class="btn btn-primary" @click="save">保存</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+
+
+<script src="__PUBLIC__/js/datepicker2/datepicker.min.js"></script>
+<script src="__PUBLIC__/js/datepicker2/datepicker.zh-CN.js"></script>
+<script src="__PUBLIC__/js/artDialog/artDialog.js"></script>
+<script>
+    var loadingArt;
+    /*$(document).ajaxStart(function() {
+        loadingArt = art.dialog({
+            title: '正在排班中,请勿操作...',
+            lock:true,
+            fixed: true,
+            cancel:false
+        });
+    });
+    $(document).ajaxComplete(function() {
+        loadingArt.close();
+    });*/
+    Vue.filter('week', function (date) {
+        var str = '周';
+        var week = new Date(date).getDay();
+        switch (week) {
+            case 0 :
+                str += "日";
+                break;
+            case 1 :
+                str += "一";
+                break;
+            case 2 :
+                str += "二";
+                break;
+            case 3 :
+                str += "三";
+                break;
+            case 4 :
+                str += "四";
+                break;
+            case 5 :
+                str += "五";
+                break;
+            case 6 :
+                str += "六";
+                break;
+        }
+        return str;
+    })
+    var app = new Vue({
+        el:"#schedule-app",
+        data:{
+            search:{
+                store_id:0,
+                month:''
+            },
+            lists:[],
+            titles:[],
+            isWordIcon:{
+                '':1,
+                'icon-remove':0
+            },
+            createNew:false
+        },
+        methods:{
+            searchFun:function () {
+                if(this.search.store_id<1){
+                    return;
+                }
+                $.ajax({
+                    url:location.href,
+                    data:this.search,
+                    type:"POST",
+                    success:function (res) {
+                        if(res.status==1){
+                            app.lists = res.info.lists;
+                            app.titles = res.info.titles;
+                            if(res.info.lists.length==0){
+                                app.createNew=true;
+                            }else{
+                                app.createNew=false;
+                            }
+                        }else{
+
+                        }
+                    }
+                })
+            },
+            export:function () {
+                if(this.search.store_id<1){
+                    return;
+                }
+                sendPost("{:U('exportSchedule')}",this.search);
+            },
+            changeWork:function (item,prop) {
+                //item["'"+prop+"'"] = item["'"+prop+"'"]==1?0:1;
+                item['barber_'+prop] = item['barber_'+prop]==1?0:1;
+            },
+            save:function () {
+                $.ajax({
+                    url:"{:U('Store/scheduleEdit')}",
+                    data:{lists:this.lists,titles:this.titles},
+                    type:"POST",
+                    beforeSend:function () {
+                        loadingArt = art.dialog({
+                            title: '正在排班中,请勿操作...',
+                            lock:true,
+                            fixed: true,
+                            cancel:false
+                        });
+                    },
+                    success:function (res) {
+                        art.dialog({id: 'popup', lock: true, content: res.info,time:3});
+                        if(res.status==1){
+
+                        }else{
+
+                        }
+                    },
+                    complete:function () {
+                        loadingArt.close();
+                    }
+                })
+            },
+            create:function () {
+                $.ajax({
+                    url:"{:U('Store/scheduleCreate')}",
+                    data:this.search,
+                    type:"POST",
+                    success:function (res) {
+                        if(res.status==1){
+                            app.createNew = false;
+                            if(res.info.lists.length>0){
+                                app.lists = res.info.lists;
+                                app.titles = res.info.titles;
+                            }else{
+                                app.lists = [];
+                                app.titles = [];
+                            }
+                        }else{
+
+                        }
+                    }
+                })
+            }
+        }
+    })
+
+    $(function () {
+        $("#month").datepicker({
+            format:"yyyy-mm",
+            language:'zh-CN',
+            autohide:true,
+            autopick:true
+        });
+    })
+    function sendPost(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.target="_blank"
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+</script>
+</body>
+</html>

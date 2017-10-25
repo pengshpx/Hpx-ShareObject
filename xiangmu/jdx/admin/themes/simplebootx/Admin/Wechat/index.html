@@ -1,0 +1,73 @@
+<admintpl file="header" />
+<style>
+    input{
+        width: 400px;
+    }
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('Game/index')}">微信绑定设置</a></li>
+    </ul>
+    <form class="form-horizontal js-ajax-forms" action="{:U('Wechat/index')}" method="post">
+        <fieldset>
+            <div class="tabbable">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="A">
+                        <fieldset>
+                            <div class="control-group">
+                                <label class="control-label">微信AppID：</label>
+                                <div class="controls">
+                                    <input type="text" required name="options[appId]" value="{$appId}" >
+                                    <span class="form-required">*</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">微信AppSecret：</label>
+                                <div class="controls">
+                                    <input type="text" required name="options[appSecret]"  value="{$appSecret}">
+                                    <span class="form-required">*</span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label">微信token：</label>
+                                <div class="controls">
+                                    <input type="text" required name="options[token]" value="{$token}" >
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">微信绑定URL：</label>
+                                <div class="controls">
+                                    <input type="text" readonly  value="{$url}" >
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">微信支付密钥：</label>
+                                <div class="controls">
+                                    <input type="text"  name="options[key]" value="{$key}" >
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">商户ID：</label>
+                                <div class="controls">
+                                    <input type="text"  name="options[mid]" value="{$mid}" >
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary  js-ajax-submit">{:L("SAVE")}</button>
+            </div>
+        </fieldset>
+    </form>
+
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/common.js"></script>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+</body>
+</html>

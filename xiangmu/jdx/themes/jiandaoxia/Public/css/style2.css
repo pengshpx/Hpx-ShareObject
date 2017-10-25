@@ -1,0 +1,504 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+ul{
+    list-style: none;
+}
+/*span颜色*/
+.color-yello{
+    color: #dab96a;
+}
+/*下划线*/
+.border-bottom{
+    border-bottom:1px solid #333;
+        }
+.button-style{
+    border: 1px solid #dab96a;
+    font-size: 0.4375rem;
+    text-align: center;
+    width: 2.3rem;
+    height: 1rem;
+    line-height: 1rem;
+    display: block;
+    border-radius: 3px;
+    transition: all .3s linear;
+}
+.button-style:active{
+    background: #dab96a;
+    color: #222;
+}
+html{
+    height: 100%;
+    background: #111;
+}
+body{
+    font-size: 0;
+}
+/*css 16 17 20 25*/
+/*头部*/
+.q-header{
+    width: 100%;
+    height: 1.375rem;
+    line-height: 1.375rem;
+    text-align: center;
+    position: fixed;
+    top: 0;
+    z-index: 10;
+}
+.q-header-color1{
+    background: #171717;
+}
+.bod-pad{
+    margin-top: 1.375rem;
+}
+.q-header .q-pull-left{
+    color: #828282;
+    width:1.375rem;
+    height:1.375rem;
+    text-align:center;
+    line-height: 1.375rem;
+    font-size:.8rem;
+    font-weight: normal;
+    position: absolute;
+    left: 0;
+}
+.q-header .q-title{
+    display:block;
+    height:1.375rem;
+    line-height:1.375rem;
+    color:#dab866;
+    font-size:0.5625rem;
+    text-align:center;
+}
+/*菜单*/
+nav{
+    width: 100%;
+    height: 1.35rem;
+    position: relative;
+    font-size: 0;
+}
+nav .yy-nav-div{
+    width: 100%;
+    height: 1.25rem;
+    background: #333;
+}
+.yy-nav-a:first-child .yy-nav-a-span2{display: none}
+.yy-nav-a:last-child .yy-nav-a-span1{display: none}
+.yy-nav-active{
+    background: #222;
+    color: white;
+}
+nav a{
+    display: inline-block;
+    width: 25%;
+    height: 1.25rem;
+    text-align: center;
+    font-size: 0.4375rem;
+    line-height: 1.25rem;
+    color: #727171;
+    position: relative;
+}
+.yy-nav-a-span{
+    display: block;
+    min-width: .3rem;
+    height: .3rem;
+    line-height: .3rem;
+    text-align: center;
+    color: black;
+    position: absolute;
+    right: 10%;
+    top: 8%;
+    font-size:12px;
+    border-radius: 0.3rem;
+    background: #dab96a;
+    padding: .1rem;
+}
+.yy-nav-a-span1{
+    display: block;
+    width: 1px;
+    height: 0.6rem;
+    border-radius: 5%;
+    background: #000;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform:translateY(-50%);
+    -webkit-transform:translateY(-50%);
+}
+.yy-nav-a-span2{
+    display: block;
+    width: 1px;
+    height: 0.6rem;
+    border-radius: 5%;
+    background: #444;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform:translateY(-50%);
+    -webkit-transform:translateY(-50%);
+}
+/*=====================预约==================*/
+section{
+    width: 100%;
+    }
+.yy-sec-div1{
+    width: 94%;
+    margin: 18px 3%;
+    background: #222;
+}
+.bigdiv{
+    width: 94%;
+    margin: 0 3%;
+}
+.yy-div1-div1{
+    line-height: 0.5rem;
+    padding: 5px 0;
+}
+.span-color{
+    color: #727171;
+}
+.span-size{
+    font-size: 14px;
+}
+.yy-sec-span-left{
+    float: left;
+
+}
+.yy-number{
+    display: block;
+    float: left;
+    width: 5rem;
+    word-break: keep-all;
+}
+.yy-sec-span-right{
+    float: right;
+    color: white;
+}
+.yy-div1-div2{
+    padding: 10px 0;
+    position: relative;
+}
+.yy-head-img{
+    height: 1.5rem;
+    width: 1.5rem;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    margin-top: -0.75rem;
+}
+.yy-head-img img{
+    border-radius: 50%;
+    height: 1.5rem;
+    width: 1.5rem;
+}
+.yy-write{
+    height: 2rem;
+    margin-left: 1.6rem;
+}
+.yy-write-left{
+    color: white;
+    margin-left: .5rem;
+    float: left;
+}
+.yy-write-left h3{
+    font-size: 0.4375rem;
+}
+.yy-write-left p{
+    width: 5rem;
+    word-break: keep-all;
+    font-size: 14px;
+    color: #656464;
+    margin: 5px 0;
+}
+.yy-write-right{
+    float: right;
+    margin-top: .2rem;
+}
+.yy-write-right a img{
+    width: .7rem;
+}
+.yy-div1-div3{
+    padding: 10px 0;
+}
+.yy-div1-div3 button{
+    float: right;
+    margin-right: 2px;
+}
+/*============================无预约情况=======================*/
+.wyy-but{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+/*============================评价=====================*/
+
+.pj-sec{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #222;
+}
+.pj-div{
+    width: 100%;
+    background: #222;
+}
+.pj-sec-div2{
+    width: 100%;
+    position: relative;
+}
+.pj-sec-div2 ul{
+    height: 1.1rem;
+    width: 7.5rem;
+    padding: .3rem 0;
+    position: relative;
+    left: 50%;
+    margin-left: -3.75rem;
+}
+
+.pj-sec-div2 ul li{
+    float: left;
+    width: 0.875rem;
+    height: 0.875rem;
+    margin: 0 0.3125rem;
+    position: relative;
+}
+.pj-sec-div2 ul li input{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+.pj-sec-div2 ul li span{
+    display: block;
+    width: 100%;
+    height: 100%;
+    content:'';
+    background-image: url("../img/pj-youse.png");
+    background-size: cover;
+}
+.pj-div+div textarea{ height: 5rem;padding: 10px;box-sizing: border-box;resize: none;font-size: 14px;}
+/*Ҫ�ĵĵط�*/
+.pj-sec-div2 ul li input:checked + span{
+    background-image: url("../img/pj-wuse.png");
+}
+
+.pj-sec-div3{
+    width: 94%;
+    margin: 18px 3%;
+    background: #111;
+    border-radius: 4px;
+}
+.pj-sec-div3 textarea{
+    width: 94%;
+    color: white;
+    border: none;
+    outline: none;
+    row-span: 5;
+    max-height: 4.6rem;
+    resize: horizontal;
+    padding: 3%;
+}
+.pj-button{
+    position: absolute;
+    left: 50%;
+    margin-left: -1.15rem;
+}
+/*=========================已评价=====================*/
+.ypj-sec{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #222;
+}
+.ypj-sec-div3{
+    width: 100%;
+    padding: 10px;
+}
+.ypj-sec-div3 span{
+    display: block;
+    word-break: break-all;
+    color: #656464;
+    width: 100%;
+    font-size: 0.34375rem;
+}
+/*=========================充值金额=====================*/
+.cz-body{
+    background: #222;
+    height: 100%;
+}
+.cz-sec{
+    width: 100%;
+    height: 100%;
+    font-size: 0.40625rem;
+}
+.cz-sec-div1{
+    color: white;
+    padding: 0.46875rem 0;
+    width: 94%;
+    margin-left: 3%;
+    position: relative;
+}
+.cz-sec-div1 p{
+    text-align: center;
+}
+.cz-sec-small{
+    width: 94%;
+    margin-left: 3%;
+    position: relative;
+    margin-top: 0.3125rem;
+}
+.cz-sring{
+    background: #111;
+    height: 0.89rem;
+    width: 100%;
+    position: relative;
+    border-radius: 5px;
+    margin-top: 0.3125rem;
+}
+.cz-sring input{
+    width: 7.4rem;
+    border: none;
+    outline: none;
+    text-align: right;
+    color: white;
+    height: 0.89rem;
+    border-radius: 5px;
+    position: absolute;
+    top: 50%;
+    right: 8px;
+    margin-top: -0.445rem;
+}
+.cz-sring span{
+    display: block;
+    width: 2.5rem;
+    height: 0.5rem;
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    color: #636363;
+    margin-top:-0.25rem;
+}
+.cz-sec-div2{
+    padding-bottom: 20px;
+}
+.cz-sec-div2 p{
+    color: white;
+    word-break: break-all;
+}
+.cz-jine{
+    display: block;
+    width: 4.0625rem;
+    height: 2.796875rem;
+    float: left;
+    position: relative;
+    border: 1px solid #dab866;
+}
+.cz-jine div{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.cz-jine div p:first-child{
+    margin-top: .5rem;
+}
+label input:checked + div{
+    background: #dab866;
+
+}
+label input:checked + div > p{
+    color: #222;
+}
+.cz-jine:nth-child(even){
+    margin-left: 4%;
+}
+li+li+li{
+    margin-top: 4%;
+}
+.cz-money ul li p{
+    width: 100%;
+    padding: 5px 0;
+    color: #dab866;
+    text-align: center;
+}
+.cz-sec-div3 p{
+    width: 100%;
+    color: #727171;
+    word-break: break-all;
+}
+/*=====================邀请朋友==================*/
+.yq-sec{
+    background: #111;
+    position: relative;
+}
+.yq-sec-p{
+    padding-top:10px;
+}
+.p-style{
+    font-size: 14px;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+.p-style36{
+    font-size: 0.5625rem;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+.p-style28{
+    font-size: 0.4375rem;
+    text-align: center;
+    width: 100%;
+    color: white;
+}
+.yq-email{
+    width: 9.46875rem;
+    margin-top: 20px;
+    position: absolute;
+    left: 50%;
+    margin-left: -4.734375rem;
+    -webkit-background-size: cover;
+    background-size: cover;
+}
+.yq-email img{
+    width: 100%;
+}
+.yq-yh{
+    width: 100%;
+}
+.yq-yh span{
+    display: block;
+    width: 50%;
+    height: 1px;
+    background: #e0e0e0;
+    margin-left: 25%;
+}
+.yq-yh p{
+    letter-spacing: 4px;
+    color: #222;
+}
+.yq-yh p:nth-of-type(1){
+    color: #dab866;
+    margin-top: 0.25rem;
+}
+.yq-yh p:nth-of-type(2){
+    margin-top: 5px;
+}
+.yq-email-head{
+    width: 2.8125rem;
+    border-radius: 50%;
+    -webkit-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    left: 50%;
+    top: 1.6875rem;
+    margin-left: -1.40625rem;
+}
+.yq-email-head img{
+    border-radius: 50%;
+}

@@ -1,0 +1,97 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('index')}">会员卡列表</a></li>
+        <li class="active"><a href="{:U('add')}">添加会员卡</a></li>
+    </ul>
+    <p style="color: #c7142c;">注：所有金额必须大于0，会员卡金额和赠送金额不能大于10万</p>
+    <form method="post" class="form-horizontal js-ajax-form">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">会员卡金额：</label>
+                <div class="controls">
+                    <input type="text" maxlength="6" v-model="addData.price" number>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">赠送金额：</label>
+                <div class="controls">
+                    <input type="text" maxlength="6" v-model="addData.donate" number>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="button" @click="checkAdd" class="btn btn-primary js-ajax-submit" value="添加">
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el: "#app",
+        data: {
+            addData: {
+                price:0,
+                donate:0
+            }
+        },
+        methods: {
+            checkAdd: function () {
+                var addData = this.addData;
+                var priceReg=/^[1-9]*[1-9][0-9]*(\.[0]+)?$/;
+                var donateReg=/^[0-9]*(\.[0]+)?$/;
+                if (!priceReg.test(addData.price)) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '会员卡金额必须是大于零的整数', time: 2});
+                    return;
+                }
+                if (!donateReg.test(addData.donate)) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '赠送金额必须是大于等于零的整数', time: 2});
+                    return;
+                }
+                if (addData.price > 100000) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '会员卡金额不能大于10万', time: 2});
+                    return;
+                }
+                if (addData.donate > 100000) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '赠送金额不能大于10万', time: 2});
+                    return;
+                }
+                if (addData.donate > addData.price) {
+                    var msg = "赠送金额大于会员卡金额，确认继续添加吗？";
+                    $.dialog({id: 'popup', lock: true,icon:"question", content: msg, cancel: true,
+                        ok:function () {
+                            app.add();
+                        }
+                    });
+                }else {
+                   this.add();
+                }
+            },
+            add: function () {
+                $.ajax({
+                    url:"{:U('add_post')}",
+                    data:this.addData,
+                    type:"post",
+                    dataType:"json",
+                    success: function (data) {
+                        $.dialog({id: 'popup', lock: true, content: data.info, time: 2});
+                        if(data.status == 1){
+                            setTimeout(function () {
+                                location.href = "{:U('index')}";
+                            },2000)
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: '提交失败，请重试', time: 2});
+                    }
+                })
+            }
+        }
+    });
+</script>
+</body>
+</html>

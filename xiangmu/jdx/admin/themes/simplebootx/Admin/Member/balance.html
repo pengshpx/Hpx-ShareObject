@@ -1,0 +1,147 @@
+<admintpl file="header" />
+<style type="text/css">
+    [v-cloak] {display: none;}
+    .controls th{text-align:center;}
+    .controls td{text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap js-check-wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('index')}">会员列表</a></li>
+        <li class="active"><a>会员卡明细</a></li>
+    </ul>
+    <div class="controls" style="width: 300px">
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <td>昵称</td>
+                <td>{{member.nickname}}</td>
+            </tr>
+            <tr>
+                <td>充值</td>
+                <td>
+                    <input v-model="money" type="text" maxlength="4" number>元
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="button" class="btn btn-primary" @click="recharge(member.member_id)" value="充值">
+                </td>
+            </tr>
+            </thead>
+        </table>
+    </div>
+    <div class="control-group">
+        <label class="control-label">余额明细：</label>
+        <div class="controls" style="width: 700px">
+            <table class="table table-hover table-bordered table-list">
+                <thead>
+                <tr>
+                    <th>时间</th>
+                    <th>类型</th>
+                    <th>金额</th>
+                    <th>账户余额</th>
+                    <th>备注</th>
+                </tr>
+                <tr v-cloak v-for="item in list">
+                    <td>{{item.create_time}}</td>
+                    <td>{{item.type}}</td>
+                    <td>{{item.change}}</td>
+                    <td>{{item.now}}</td>
+                    <td>{{item.remarks}}</td>
+                </tr>
+                </thead>
+            </table>
+            <vue-pager :conf.sync="pagerConf"></vue-pager>
+        </div>
+    </div>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            member:{$member?$member:'[]'},
+            money:0,
+            list:[],
+            searchCon:{
+                member_id:"{:I('get.member_id')}",
+                p:1
+            },
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            mySearch: function (search) {
+                var data = this.searchCon;
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('balance')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            },
+            recharge: function (member_id) {
+                var priceReg=/^[1-9]*[1-9][0-9]*$/;
+                if (!priceReg.test(this.money)) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '金额必须是大于零的整数', time: 2});
+                    return;
+                }
+                if (this.money > 1000) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '单次充值不得超过1000元', time: 2});
+                    return;
+                }
+                $.dialog({id: 'popup', lock: true,icon:"question", content: "是否给该会员充值？该操作将无法逆转！",cancel: true, ok: function () {
+                    $.ajax({
+                        url:"{:U('recharge')}",
+                        data:{money:app.money,member_id:member_id},
+                        type:"POST",
+                        dataType:"json",
+                        success: function (res) {
+                            if (res.status == 1) {
+                                $.dialog({id: 'popup', lock: true,icon:"succeed", content: res.info, time: 2});
+                                app.money = 0;
+                                app.mySearch(true);
+                            }else {
+                                $.dialog({id: 'popup', lock: true,icon:"error", content: res.info, time: 2});
+                            }
+                        },
+                        error: function () {
+                            $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                        }
+                    })
+                }})
+            }
+
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,253 @@
+<admintpl file="header"/>
+<script src="__PUBLIC__/js/vue.js"></script>
+</head>
+<body>
+<div class="wrap" id="order-app">
+    <form class="well form-search " >
+        关键字：
+        <input type="text" name="keyword" style="width: 200px;" v-model="search.keyword" placeholder="关键字...">&nbsp;&nbsp;
+        <input type="button" class="btn btn-primary" @click="mySearch" value="查询">
+        <input type="button" class="btn btn-primary" @click="add" value="添加">
+    </form>
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>关键字</th>
+            <th>标题</th>
+            <th>回复内容或链接</th>
+            <th>回复类型</th>
+            <th>封面图</th>
+            <th>更新时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="keyword in list">
+            <td>{{keyword.id}}</td>
+            <td>{{keyword.keyword}}</td>
+            <td>{{keyword.title}}</td>
+            <td>{{keyword.content}}</td>
+            <td>{{keyword.type==1?'文字回复':'图文链接'}}</td>
+            <td>{{keyword.pic_url}}</td>
+            <td>{{keyword.update_time}}</td>
+            <td>
+                <a class="btn btn-success btn-small" @click="modify(keyword)" href="javascript:;">修  改</a>
+                <a class="btn btn-small" href="javascript:;" @click="deleteKey(keyword)">删  除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+
+    <div id="addModal"  class="modal hide" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="addModalLabel">新增</h3>
+        </div>
+        <div class="modal-body">
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label">关键字：</label>
+                    <div class="controls">
+                       <input type="text" v-model="newData.keyword">
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" >回复类型：</label>
+                    <div class="controls">
+                        <select v-model="newData.type">
+                            <option value="1" selected>文字回复</option>
+                            <option value="2">图文链接</option>
+                        </select>
+                    </div>
+                </div>
+                <div v-if="newData.type==2" class="control-group">
+                    <label class="control-label" for="inputPassword2">标题：</label>
+                    <div class="controls">
+                        <input v-model="newData.title" type="text" id="inputPassword2" >
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="inputPassword3">回复内容或链接：</label>
+                    <div class="controls">
+                        <textarea id="inputPassword3" rows="3" v-model="newData.content"></textarea>
+                    </div>
+                </div>
+                <div v-if="newData.type==2" class="control-group">
+                    <label class="control-label">封面图：</label>
+                    <div class="controls">
+                        <input type="hidden" name="pic_url" v-model="newData.pic_url" id="thumb" value="">
+                        <a href="javascript:void(0);"
+                           onclick="flashupload('thumb_images', '附件上传','thumb',thumb_images2,'1,jpg|jpeg|gif|png|bmp,1,,,1','','','');return false;">
+                            <img :src="newData.pic_url == '' ? '__TMPL__Public/assets/images/default-thumbnail.png' : newData.pic_url" id="thumb_preview" width="135" style="cursor: hand"/>
+                        </a>
+                    </div>
+                </div>
+                <div v-if="deliverError!=''" class="alert alert-error">
+                    {{deliverError}}
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn"  data-dismiss="modal" aria-hidden="true">取消</button>
+            <button class="btn btn-success" @click="addSubmit">提交</button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__PUBLIC__/js/content_addtop.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    var demo = new Vue({
+        el: '#order-app',
+        data: {
+            list:[],
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            },
+            search:{keyword:null},
+            newData:{
+                id:'',
+                keyword:'',
+                type:'',
+                content:'',
+                title:'',
+                pic_url:''
+            },
+            deliverError:''
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.getData();
+            }
+        },
+        methods: {
+            getData: function (from) {
+                var data = this.search;
+                data.p = from == undefined ? this.pagerConf.currPage : 1;
+                $.getJSON("{:U('keywords')}", data, function (res) {
+                    if (res.status == 1) {
+                        demo.list = res.info.data;
+                        demo.pagerConf.totalPage = res.info.count;
+                    } else {
+                        alert(res.info);
+                    }
+                })
+            },
+            mySearch: function () {
+                this.getData('search');
+            },
+            add: function () {
+                this.clearNewForm();
+                $("#addModal").modal('show');
+            },
+            addSubmit: function () {
+                if (this.newData.keyword == '') {
+                    this.deliverError = '关键字不能为空';
+                    return;
+                }
+                if (this.newData.content == '') {
+                    this.deliverError = '回复内容或链接不能为空';
+                    return;
+                }
+                this.deliverError = '';
+
+                $.ajax({
+                    url: "{:U('add_keyword')}",
+                    data: this.newData,
+                    dataType: 'json',
+                    type: "POST",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            $('#addModal').modal('hide');
+                            Wind.use('noty', 'noty', function () {
+                                var n = noty({
+                                    text: res.info,
+                                    type: 'success'
+                                });
+                            });
+                            demo.clearNewForm();
+                            demo.getData();
+                        } else {
+                            alert(res.info);
+                        }
+                    },
+                    error: function () {
+                        alert('请求失败');
+                    }
+                })
+            },
+            clearNewForm: function () {
+                for (var i in this.newData) {
+                    this.newData[i] = '';
+                }
+                this.deliverError = '';
+            },
+            modify: function (data) {
+                this.clearNewForm();
+                for (var i in data) {
+                    this.newData[i] = data[i];
+                }
+                $("#addModal").modal('show');
+            },
+            deleteKey: function (key) {
+                Wind.use('artDialog', function () {
+                    art.dialog({
+                        title: false,
+                        icon: 'question',
+                        content: '确定要删除吗？',
+                        close: function () {
+                            return true;
+                        },
+                        okVal: "确定",
+                        ok: function () {
+                            $.getJSON("{:U('delete_keyword')}", {id: key.id}, function (res) {
+                                if (res.status == 1) {
+                                    Wind.use('noty', 'noty', function () {
+                                        var n = noty({
+                                            text: res.info,
+                                            type: 'success'
+                                        });
+                                    });
+                                    demo.getData();
+                                } else {
+                                    alert(res.info);
+                                }
+                            })
+                        },
+                        cancel:true
+                    })
+                })
+            }
+        },
+        ready:function () {
+            this.getData();
+        }
+    })
+
+
+    $(function () {
+
+    })
+
+    function thumb_images2(uploadid, returnid) {
+        //取得iframe对象
+        var d = uploadid.iframe.contentWindow;
+        //取得选择的图片
+        var in_content = d.$("#att-status").html().substring(1);
+        if (in_content == '') return false;
+        if (!IsImg(in_content)) {
+            isalert('选择的类型必须为图片类型！');
+            return false;
+        }
+
+        demo.newData.pic_url = in_content;
+    }
+</script>
+</body>
+</html>

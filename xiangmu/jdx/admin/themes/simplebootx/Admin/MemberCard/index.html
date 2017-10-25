@@ -1,0 +1,95 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">会员卡列表</a></li>
+        <li><a href="{:U('add')}">添加会员卡</a></li>
+    </ul>
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th align="center">ID</th>
+            <th>会员卡金额</th>
+            <th>会员卡赠送金额</th>
+            <th align="center">操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in list">
+            <td align="center">{{item.id}}</td>
+            <td>{{item.price}}</td>
+            <td>{{item.donate}}</td>
+            <td align="center">
+                <a @click="cardEdit(item.id)" class="btn btn-small btn-primary">编辑</a>
+                <a @click="cardDel(item.id)" class="btn btn-small btn-danger">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[],
+            searchCon:{p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            mySearch: function (search) {
+                var data = this.searchCon;
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            },
+            cardEdit: function (id) {
+                location.href = "{:U('edit')}/id/"+id;
+            },
+            cardDel: function (id) {
+                $.dialog({id: 'popup', lock: true,icon:"question", content: "确认删除吗？",cancel: true, ok: function () {
+                    $.getJSON("{:U('card_del')}",{id:id},function (data) {
+                        $.dialog({id: 'popup', lock: true, content: data.info, time: 2});
+                        if(data.status == 1){
+                            app.mySearch(false);
+                        }
+                    })
+                }})
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+</script>
+</body>
+</html>

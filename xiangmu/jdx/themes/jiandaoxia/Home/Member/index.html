@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+    <tc_include file="Public:header"/>
+
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+
+    <script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+
+</head>
+
+<body class="back-black" style="padding-bottom: 2rem;">
+
+<!--<div class="q-header q-header-color1">
+
+    &lt;!&ndash;<a href="{:U('Index/index')}" class="q-pull-left"><i class="fa fa-angle-left"></i></a>&ndash;&gt;
+
+    <span class="q-title">个人中心</span>
+
+</div>-->
+
+<section>
+
+    <div class="person_center m-b-10">
+
+        <div class="person_photo">
+
+            <div class="person_img " style="background-image: url({$headimgurl?$headimgurl:<literal>'__TMPL__Public/img/slice/avatar.png'</literal>});"></div>
+
+            <div class="person_con ">
+
+                <h3 class="hgt30 l-h-30">{$nickname}</h3>
+
+                <p class="p-l-25 hgt30 l-h-30">{$mobile}</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section>
+
+    <div class="item_list p_both15 back-222 b-b-333 m-b-10 p_both10 person_center">
+
+        <ul>
+
+            <li>
+
+                <a href="{:U('Order/index',array('status'=>100))}">
+
+                    <div class="left">
+
+                        <img src="__TMPL__/Public/img/slice/time1.png"/>我的预约
+
+                        <i class="fa fa-angle-right"></i>
+
+                    </div>
+
+
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{:U('Member/balance')}">
+
+                    <div class="left">
+
+                        <img src="__TMPL__/Public/img/slice/money3.png"/><span>超剪卡余额<if condition="$money gt 0">（{$money}元）</if></span>
+
+                        <i class="fa fa-angle-right"></i>
+
+                    </div>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{:U('Member/coupon')}">
+
+                    <div class="left">
+
+                        <img src="__TMPL__/Public/img/slice/money2.png"/>优惠码({$count})
+
+                        <i class="fa fa-angle-right"></i>
+
+                    </div>
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{:U('Index/index')}">
+
+                    <div class="left">
+
+                        <img src="__TMPL__/Public/img/slice/time2.png"/>我要预约
+
+                        <i class="fa fa-angle-right"></i>
+
+                    </div>
+
+
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="{:U('Member/share')}">
+
+                    <div class="left">
+
+                        <img src="__TMPL__/Public/img/slice/person1.png"/>邀请朋友
+
+                        <i class="fa fa-angle-right"></i>
+
+                    </div>
+
+
+
+                </a>
+
+            </li>
+
+            <li>
+
+                <a href="tel:{$call.callCenters}">
+
+                    <div class="left">
+
+                        <img src="__TMPL__/Public/img/slice/xinxi1.png"/>关于我们
+
+                        <i class="fa fa-angle-right"></i>
+
+                    </div>
+
+
+
+                </a>
+
+            </li>
+
+
+
+        </ul>
+
+    </div>
+
+</section>
+
+
+
+<tc_include file="Public:footer" />
+
+
+
+
+
+
+
+</body>
+
+</html>
+

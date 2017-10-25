@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html class="back-black">
+<head>
+	<meta charset="utf-8">
+	<title>CUTMAN男士理发</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+</head>
+<body class="back-black" id="app" style="padding-bottom: 3rem;">
+	<div class="q-header q-header-color1">
+		<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+		<span class="q-title">支付</span>
+	</div>
+	<section class="bod-pad">
+		<div class="pay_page p_both15 back-222 b-b-333" >
+			<div class="money color-fff font14">
+				应付：{{order.total_price}}元
+			</div>
+			<div class="coupon">
+				<div v-cloak v-if="coupon != null">
+					<label v-for="item in coupon" class="block">
+						<input v-model="selectedCoupon" :value="item.id" @click="checkCoupon($index)" :disabled="item.isDisabled" type="checkbox" :name="'coupon'+item.id" class="hide"/>
+						<span class="left_mid"></span>
+						<div class="money_save  wid92 fr_mid color-fff font14">
+							优惠码<span class="vertical_mid m-l-15 color-gray">{{item.code}} （{{item.money}}元）</span>
+						</div>
+					</label>
+				</div>
+				<label v-for="item in pay_style" class="block" :class="item.value==1?'remainder':(item.value==2?'weixin':'')">
+					<input type="radio" class="hide" v-model="selectedPay"  name="pay" :disabled="item.isDisabled" :value="$index"/>
+					<span class="left_mid"></span>
+					<div class="money_save  wid92 fr_mid color-fff font14">
+						 {{item.name}}<span v-if="item.value==1" class="vertical_mid m-l-10 color-gray">(余额：{{money}}元)8.5折</span>
+					   <div v-if="item.value==1" class="add_money">
+						<a href="{:U('Member/recharge')}" class="recharge border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">充值超剪卡</a>
+					    </div>
+					</div>
+				</label>
+			</div>
+		</div>
+	</section>
+	<section>
+		<div class="bottom p_both10 footer_back">
+			<div class="left wid70 color-gold font-w6 inline_div">
+				 实付：{{payPrice}}元
+			</div>
+			<button @click="goPay" class="border-gold color-gold hgt40 l-h-40 p_both15 radius4 font16 right_mid" >确认支付</button>
+		</div>
+	</section>
+</body>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el:"#app",
+		data:{
+			order:{$order},
+			coupon:{$coupon},
+			money:{$money},
+
+			selectedCoupon:[],
+			selectedPay:null,
+			pay_style:[
+				{code:"moneypay",name:"超剪卡支付",value:1,jumpUrl:"{:U('Pay/pay')}?way=moneypay",isDisabled:false},
+				{code:"wxpay",name:"微信支付",value:2,jumpUrl:"{:U('Pay/pay')}?way=wxpay",isDisabled:false}
+			]
+		},
+		watch:{
+			'selectedPay':function () {
+				this.selectedCoupon = [];
+				for (var i=0;i<this.coupon.length;i++) {
+					this.coupon[i].isDisabled = false;
+					this.coupon[i].isChecked =false;
+				}
+			}
+		},
+		computed:{
+			payPrice:function () {
+				var payPrice = 0;
+				var couponPrice = 0;
+				for (var i=0;i<this.coupon.length;i++) {
+					this.coupon[i].isDisabled = false;
+					if (this.coupon[i].isChecked == true) {
+						couponPrice += Number(this.coupon[i].money);
+					}
+				}
+				switch(this.selectedPay){
+					case 0:
+						if(this.money>0){
+							payPrice = (this.order.total_price * 0.85 - couponPrice).toFixed(2);
+						}else{
+							payPrice = (this.order.total_price - couponPrice).toFixed(2);
+						}
+						break;
+					default:
+						payPrice = (this.order.total_price - couponPrice).toFixed(2);
+						break;
+				}
+
+				if(payPrice<=0){
+					payPrice = 0;
+					for (var i=0;i<this.coupon.length;i++) {
+						if (this.coupon[i].isChecked == false) {
+							this.coupon[i].isDisabled = true;
+						}
+					}
+				}
+				return payPrice;
+			}
+		},
+		methods:{
+			checkCoupon: function (index) {
+				if (this.coupon[index].isChecked == true) {
+					this.coupon[index].isChecked = false;
+				}else {
+					this.coupon[index].isChecked = true;
+				}
+			},
+			goPay: function () {
+				if (this.selectedPay == null) {
+					layer.open({content:"请选择支付方式",time:3,shadeClose:false});
+					return;
+				}
+				if (this.selectedPay == 0 && (this.money-this.payPrice) < 0) {
+					layer.open({content:"超剪卡余额不足，请充值",time:3,shadeClose:false});
+					return;
+				}
+				var couponStr = this.selectedCoupon.join(",");
+				var jumpUrl = "";
+				if (this.payPrice <= 0) {
+					jumpUrl = this.pay_style[0].jumpUrl+"&oid="+this.order.order_id;
+				}else{
+					jumpUrl = this.pay_style[this.selectedPay].jumpUrl+"&oid="+this.order.order_id;
+				}
+				if (couponStr != "") {
+					jumpUrl += "&cids="+couponStr;
+				}
+				location.href = jumpUrl;
+			}
+		},
+		ready: function () {
+			this.payPrice = this.order.total_price;
+			/*if (this.money <= 0) {
+				this.pay_style[0].isDisabled = true;
+			}*/
+			if(this.money>0){
+				this.selectedPay = 0;
+			}else{
+				this.selectedPay = 1;
+			}
+
+		}
+	})
+	$(".recharge").click(function(e){
+		e.stopPropagation();
+	})
+</script>
+</html>

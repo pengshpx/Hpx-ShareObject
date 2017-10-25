@@ -1,0 +1,198 @@
+/*首页*/
+html{height: 100%;}
+body{min-height: 100%;background-color: #111}
+*:not(".fa"){font-family:"simhei"!important;}
+header{ height: 1.35rem;line-height: 1.35rem; background-image: url(../img/logo.png); background-size: auto 75%;  }
+header a.fr_mid{ font-size: 0.4rem; background-image: url(../img/position.png);display: inline-block!important; background-size: 0.56rem auto;}
+.button_active{transition: all 0.3s linear;}
+.button_active:active{ background-color: #dab866 ;color:#fff; }
+/*头部*/
+.q-header{width: 100%;height: 1.35rem;line-height: 1.375rem;  text-align: center;  position: fixed;  top: 0;  z-index: 10;  }
+.q-header-color1{  background: #171717;  }
+.bod-pad{  margin-top: 1.375rem;  }
+.q-header .q-pull-left{  color: #828282;  width:1.375rem;  height:1.375rem;  text-align:center;  line-height: 1.375rem;  font-size:0.8rem;  font-weight: normal;  position: absolute;  left: 0;  }
+.q-header .q-title{  display:block;  height:1.375rem;  line-height:1.375rem;  color:#dab866;  font-size:0.5625rem;  text-align:center;  }
+.q-header .q-photo{  display: block;  width: 2.96875rem;  height:0.984375rem;  position: absolute;  top: 50%;  left: 50%;  transform: translateX(-50%) translateY(-50%);  background-size: cover;  background-image: url("../img/logo.png");  }
+
+
+
+footer{box-sizing: border-box;position: fixed;width:100%; left: 0px;bottom: 0; padding: 0.3rem 0;}
+footer ul li{ display: inline-block;margin-top: 0!important;width: 25%;box-sizing: border-box; height: 1rem;line-height: 1rem;vertical-align: middle;}
+footer ul li a{ display: block;color:#727171; font-size: 15px;text-align: center;}
+footer ul li+li{ border-left:1px solid #222}
+footer ul li+li a{ border-left: 1px solid #0a0809;}
+footer ul li.active a{ color:#dab866}
+.shop_list  li> a img{width: 100%;display: block;}
+.shop_list  li> div img{width: 100%;display: block;}
+.shop_list  li .shop_con .shop_name{ height: 1rem; line-height: 1rem; border-bottom: 1px solid #111;}
+.shop_list  li .shop_con .shop_name h4{ height: 1rem; line-height: 1rem;}
+.shop_list  li .shop_con .shop_name a{ height: 1rem;line-height: 1rem;}
+.shop_list  li .shop_con .shop_name a img{ width: 0.5rem; height: 0.5rem;vertical-align: middle;display: inline-block;}
+.shop_list  li .shop_con .address_con{border-top:1px solid #333; font-size: 14px;}
+.shop_list  li .shop_con .address_con span{}
+
+.city_choice{height: 10.2rem;overflow-y: auto;}
+.city_choice ul{ background-color: #222; }
+.city_choice li {height:1.7rem;line-height: 1.7rem;box-sizing: border-box;}
+.city_choice li span{ color:#727171;font-size: 14px; white-space: nowrap;overflow: hidden;text-overflow: ellipsis;}
+.city_choice li+li{ border-top:1px solid #333}
+.city_choice li em{ font-size: 0;display: inline-block;}
+.city_choice li label { display: block;}
+.city_choice li label input:checked+span{color:#dab866 ;font-size: 14px;}
+.city_choice li label input:checked+span+em{ font-size: 14px;}
+
+
+/*店铺详情页面*/
+.hairdresser_list ul li{ overflow: hidden;position: relative;}
+.hairdresser_list ul li+li{ border-top:1px solid #333}
+.hairdresser_list ul li .photo{ display: inline-block;width: 1.4rem; height:1.4rem; border-radius: 50%; background-size: 100% 100%;position: absolute;top:50%; transform: translateY(-50%);-webkit-transform: translateY(-50%)}
+.hairdresser_list ul li .dothing{display: inline-block;width:3.6rem}
+.hairdresser_list ul li .dothing button{ width: 2.4rem; height: 0.9rem;bottom: 10px;transition: all 0.2s linear;background-color: transparent;}
+.hairdresser_list ul li .dothing button:active{ background-color: #dab866 ;color:#fff}
+.hairdresser_list ul li .person_con{ margin-left: 1.9rem; margin-right: 3.2rem;}
+
+/*店铺详情介绍*/
+.intruduction_con .shop_show .title{ background-image: url(../img/tit1.png); background-position: 10px center;background-size: auto  16px; }
+.intruduction_con .shop_show img{width: 100%;display: block;}
+.intruduction_con .shop_show img+img{ margin-top: 10px;}
+.intruduction_con .shop_text .title{background-image: url(../img/tit2.png); background-position: 10px center;background-size: auto  16px;}
+.intruduction_con .shop_text .title4{background-image: url(../img/tit4.png); background-position: 10px center;background-size: auto  16px;}
+.intruduction_con .shop_show .title2{ background-image: url(../img/tit3.png); background-position: 10px center;background-size: auto  16px;}
+.intruduction_con .shop_show table {border-collapse: collapse;}
+.intruduction_con .shop_show table tr *{ border: 1px solid #333; height: 25px;text-align: center;color:#fff; }
+.intruduction_con .shop_show table tr td:last-child{color:#dab866}
+.intruduction_con .shop_show table tr th{ font-size: 14px;background-color: #dab866;color:#222}
+.intruduction_con .shop_show .title4{background-image: url(../img/tit4.png); background-position: 10px center;background-size: auto  16px;}
+.intruduction_con .shop_show .title5{background-image: url(../img/tit5.png); background-position: 10px center;background-size: auto  16px;}
+.bottom{  ;position: fixed;bottom: 0;left: 0;width:100%;padding: 0.15rem 10px;}
+.bottom div{ height: 1.3rem;line-height: 1.3rem;font-size: 14px;}
+.bottom button{right: 10px;transition: all 0.3s linear;overflow: visible}
+.bottom button:active{ background-color: #dab866;color:#fff}
+
+/*确认预约*/
+.hairdresser{ position: relative; min-height: 2rem; box-sizing: content-box;}
+.hairdresser .left_mid15{ ;width:2rem; height: 2rem; border-radius: 50%; background-size: 100% 100%;}
+.hairdresser .person_con{ margin-left: 2.5rem;}
+.hairdresser .person_con a.fr{position: relative;top:15px}
+.hairdresser .person_con a.fr img{display: inline-block;width: 0.6rem;}
+.item_list table tr th{ text-align: left;height: 1.5rem;font-size: 14px;color:#fff}
+.item_list table tr td{ text-align: right;font-size: 14px;}
+.item_list table tr+tr>*{ border-top:1px solid #333}
+.item_list table tr th img{ width: 20px;vertical-align: middle; margin-right: 5px;}
+.hairdresser+div{ color:#9fa0a0}
+
+
+.give_tel{ position: fixed; width: 100%;  left: 100%; height: 100%; box-sizing: border-box;top:1.375rem; margin-bottom: 1.6rem; background-color: #111;z-index: 1000;}
+.give_tel span{ margin: 10px;}
+.give_tel input{ height: 35px; background-color: #111; margin: 15px 0; width: 70%; padding: 0px 10px;}
+
+/*支付页面*/
+.pay_page >div{ min-height: 1.7rem;line-height: 1.7rem;}
+.pay_page >div+div{ border-top:1px solid #333}
+.pay_page .coupon .money_save span{line-height: 18px; height: auto;display: inline-block;max-width: 78%;max-height: 54px;overflow: hidden;font-size:12px ;}
+.pay_page .coupon label{position: relative;min-height: 1.7rem;overflow: hidden;}
+.pay_page .coupon label+label{border-top: 1px solid #333}
+.pay_page .coupon label> input+span{width:0.5rem; height: 0.5rem; background-image: url(../img/slice/check1.png);display: inline-block;background-size: 100% 100%; background-repeat: no-repeat;}
+.pay_page .coupon label> input:checked+span{ background-image: url(../img/slice/check2.png);}
+.pay_page .coupon label.remainder>input+span{ background-image: url(../img/slice/check3.png);top:23%; width: 0.56rem;height: 0.56rem;}
+.pay_page .coupon label.remainder .money_save span{ max-width: 68%;}
+.pay_page .coupon label.remainder>input:checked+span{ background-image: url(../img/slice/check4.png);}
+.pay_page .coupon label.weixin> input+span{ background-image: url(../img/slice/check3.png);width: 0.56rem;height: 0.56rem;}
+.pay_page .coupon label.weixin> input:checked+span{ background-image: url(../img/slice/check4.png);}
+
+/*支付结果*/
+.sucess_tag{ height: 5rem; background-image: url(../img/slice/sucess.png); background-size: 2rem auto; background-repeat: no-repeat;background-position: center;}
+.failure{ background-image: url(../img/slice/failure.png);}
+.sucess_tag+p+div{ position: absolute;width:100%;bottom: 25%;left: 0;}
+
+/*会员卡页面*/
+.member { text-align: center;padding-top: 10px; padding-bottom: 15px; background-image:url(../img/bg1.png); text-align: center; }
+.member .cart_show img{width: 8.125rem;display: block; margin: 0 auto;}
+.member+.items a{border-color: #fff; margin-bottom: 20px; margin-top: 0px;font-size: 14px;line-height: 16px;border-bottom: 1px solid #fff;}
+.member+.items p{ clear: both;line-height: 1.1rem; background-color: #222;border-radius: 4px;color:#fff; font-size: 14px;}
+.member+.items p+p{ margin-top: 10px;}
+
+/*会员卡页面*/
+.member_cart ul li div { display: inline-block;width: 50%;}
+.member_cart ul li div >*{ line-height: 0.9rem;}
+.member_cart ul li div h4{ color:#fff; font-size: 14px;white-space: nowrap; overflow: hidden;text-overflow: hidden}
+.member_cart ul li div p{ white-space: nowrap; overflow: hidden;text-overflow: hidden ;font-size: 13px;}
+.member_cart ul li+li{ border-top:1px solid #333}
+
+/*个人中心*/
+.person_center .person_photo{ height: 4rem;line-height: 4rem ;background-image: url(../img/bg1.png);position: relative;}
+.person_center .person_photo .person_img{width:2rem; height: 2rem; position: absolute;border:5px solid #333333; border-radius: 50%;  background-size: 100% 100%;top:50%; left:10px;margin-top: -1rem;}
+.person_center .person_photo .person_con{ float: left;margin-left: 2.7rem;display:inline-block; line-height: 1rem; position: relative;top:50%; transform: translateY(-50%);max-width:60%;;overflow: hidden;-webkit-transform: translateY(-50%); font-size: 14px;color:#fff}
+.person_center .person_photo .person_con>*{ color:#fff}
+.person_center .person_photo .person_con p{ background-image:url(../img/slice/shouji1.png); background-size:auto 80%; background-repeat: no-repeat; background-position:left center; font-size: 14px;}
+.person_center.item_list ul li a{display: block;}
+.person_center.item_list ul li+li{ border-top: 1px solid #333333;}
+.person_center.item_list ul li a div{line-height: 1.5rem;color:#fff;font-size: 14px;}
+.person_center.item_list ul li a div img{height: 20px;display: inline-block;vertical-align: middle; margin-right: 10px;}
+.person_center.item_list ul li a div i{ display: inline-block;float: right; height: 100%; font-size: 20px; line-height: inherit;color:#808080}
+.person_center.item_list ul li a div span{ display: inline-block;max-width: 80%;overflow: hidden;text-overflow: ellipsis;vertical-align: middle;white-space: nowrap;}
+
+.person_center.item_list ul li a div  em{ max-width: 50%;display: inline-block;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;line-height: 1.5rem;vertical-align: middle;font-size: 14px;}
+/*理发师详情页*/
+.hairdresser_touxiang .touxiang { min-height: 2rem;position: relative; }
+.hairdresser_touxiang .touxiang .photo{ width: 2rem; height: 2rem;border-radius: 50%;overflow: hidden;background-size: 100% 100%;position: absolute;left:0px;top:50%; margin-top: -1rem;}
+.hairdresser_touxiang .touxiang .person_con{line-height: 40px;margin-left: 2.4rem;padding-right: 10px;}
+.hairdresser_touxiang .txt_about{ border-top:1px solid #333; padding-bottom: 0!important;}
+.shop_show .case_list{ font-size: 0;}
+.shop_show .case_list li{width:48%; display: inline-block;}
+.shop_show .case_list li+li+li{ margin-top: 15px;}
+.shop_show .case_list li:nth-child(even){ margin-left: 4%;}
+.shop_show .case_list li a{ display: block;height: 0;padding-top: 116%;position: relative}
+.shop_show .case_list li a img{display: inline-block;position: absolute;left:0px;top:0px;width:100%;height:100%;}
+.intruduction_con  .pingjia { background-color: #222;position: relative; }
+.intruduction_con  .pingjia:after{ display: block;height: 1px;  background-color: #333; position: absolute;left:3%;width: 94%;bottom: 0;}
+.intruduction_con  .pingjia  .img{float: left;;width:1.5rem;height:1.5rem;border-radius: 50%; background-size: 100% 100%;}
+.intruduction_con  .pingjia .pingjia_con{ margin-left: 2rem;}
+.intruduction_con  .pingjia .pingjia_con .top span{ text-overflow: ellipsis;}
+.intruduction_con  .pingjia .pingjia_con .client_massage{ font-size: 13px;}
+.intruduction_con .yuyue{position: fixed;width:100%; background-color: #171717!important;left: 0;bottom: 0;}
+.intruduction_con .yuyue a{ vertical-align: middle;}
+.set_stars  img{ vertical-align: middle;}
+.service_style:before{ border-top:1px solid #333; content: "";display: block;height: 0; margin-bottom: 10px;}
+.service_style ul li{ display: inline-block; margin-top: 10px; margin-right: 5px;}
+.service_style ul li span{ padding: 0px 15px; overflow: hidden;font-size: 14px;border-radius: 4px;border: 1px solid #dab96a; color: #dab96a;min-height: 30px;line-height: 30px;display: block;font-size: 14px;}
+.service_style ul li input:checked+span{ background-color:#dab866 ;color:#222}
+.class_items{ overflow: hidden;}
+.class_items:after{ content:"";display:block; margin:0px; height: 0;border-top:1px solid #333}
+a.swiper-slide { height: 45px;display: inline-block;}
+a.swiper-slide p{ height: 25px; color:#fff; line-height: 25px;font-size: 14px;}
+a.swiper-slide span{color:#727171;}
+.class_items .active-time{ color:#dab866}
+.time_choice{ overflow: hidden;}
+.time_choice span{ display: inline-block;float: left;width: 22.5%; margin-left: 2%;box-sizing: border-box;border:1px solid #dab866; margin-bottom: 5px;color:#dab866}
+.time_choice span.active{ background-color: #dab866;color:#222}
+.time_choice span.no{ border:1px solid #333;color:#727171}
+.time_choice span i{display: block;height: 0;padding-top: 100%;position: relative;}
+.time_choice span i em{position: absolute;width: 100%;height: 50%;left: 0px;top:13%; text-align: center;line-height: 30px;font-size: 16px;}
+.time_choice span i em+em{top:50%}
+.go_yuyue{text-align: right;background-color: #171717!important;position: fixed;width:100%; left: 0px;bottom: 0;}
+.go_yuyue span{ white-space: nowrap;overflow: hidden;text-align: left;max-width: 75%;text-overflow:ellipsis;}
+
+.position_bg{ ;background-image: url(../img/position_bg1.png); background-size: cover; height: 100%;}
+.position_bg .con_box{ position: absolute;left:0px;bottom: 30%; width:100%}
+.position_bg .con_box img{ width: 0.5rem;}
+.position_bg .con_box .move{font-size: 16px;margin: 5px auto;display: inline-block;}
+.position_bg .con_box  p{ font-size: 14px;}
+.return_money { border-top:1px solid #333; margin-bottom: 250px;}
+.return_money  p{height: 1.7rem; line-height: 1.7rem;}
+.return_money  p +p{ border-top:1px solid #333}
+.return_money span{ display: inline-block;width:25%; color:#fff; font-size: 14px;}
+.return_money input{width:70%; font-size: 14px;}
+
+
+
+
+
+
+
+
+
+
+
+
+

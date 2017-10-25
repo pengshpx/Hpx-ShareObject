@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <tc_include file="Public:header"/>
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css"/>
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css"/>
+</head>
+<body class="back-black">
+<div class="q-header q-header-color1">
+    <a href="javascript:;" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+    <span class="q-photo"></span>
+</div>
+<div class="q-header q-header-color1">
+    <span class="q-photo"></span>
+</div>
+<section class="bod-pad">
+    <div class="city_choice">
+        <ul class="p_both15 b-b-333">
+            <volist name="areas" id="area">
+                <li onclick="location.href='{:U('selectLocation?city='.$area['city'])}'">
+                    <label>
+                        <input type="radio" name="city" class="hide" <present name="userLocation"><if condition="$userLocation['city'] eq $area['city']">checked="checked"</if> </present> >
+                        <span href="#" class="inline_div wid70">{$area.city}</span>
+                        <em class="fr_mid color-fff ">当前城市</em>
+                    </label>
+                </li>
+            </volist>
+
+        </ul>
+    </div>
+</section>
+</body>
+<script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js"></script>
+</html>

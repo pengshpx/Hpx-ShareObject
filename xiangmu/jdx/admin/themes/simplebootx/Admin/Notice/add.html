@@ -1,0 +1,93 @@
+<admintpl file="header"/>
+</head>
+<body>
+<div class="wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li><a href="{:U('index')}">公告列表</a></li>
+        <li class="active"><a href="{:U('add')}">添加公告</a></li>
+    </ul>
+    <p style="color: #c7142c;">注：排序数字越大越靠前</p>
+    <form method="post" class="form-horizontal js-ajax-form">
+        <fieldset>
+            <div class="control-group">
+                <label class="control-label">标题</label>
+                <div class="controls">
+                    <input type="text" v-model="add.title">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">排序</label>
+                <div class="controls">
+                    <input type="number" v-model="add.sort">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label">内容</label>
+                <div class="controls">
+                    <!-- 加载编辑器的容器 -->
+                    <script id="container" type="text/plain"></script>
+                </div>
+            </div>
+        </fieldset>
+        <div class="form-actions">
+            <input type="button" @click="addData" class="btn btn-primary js-ajax-submit" value="添加">
+        </div>
+    </form>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<!-- 配置文件 -->
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="__PUBLIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var ue = UE.getEditor('container',{
+        initialFrameWidth:700,
+        initialFrameHeight:200
+    });
+    var app = new Vue({
+        el: "#app",
+        data: {
+            add: {title:'',content:'',sort:0}
+        },
+        methods: {
+            addData: function () {
+                this.add.content = ue.getContent();
+                var add = this.add;
+                var NumReg=/(^[1-9]+\d*$)|(^0$)/;
+                if (add.title == '') {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '请填写标题', time: 2});
+                    return;
+                }
+                if (!NumReg.test(add.sort)) {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '排序请输入大于或等于0的整数', time: 2});
+                    return;
+                }
+                if (add.content == '') {
+                    $.dialog({id: 'popup', lock: true,icon:"warning", content: '请填写内容', time: 2});
+                    return;
+                }
+                $.ajax({
+                    url:"{:U('add_post')}",
+                    data:app.add,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        $.dialog({id: 'popup', lock: true, content: res.info, time: 2});
+                        if(res.status == 1){
+                            setTimeout(function () {
+                                location.href = "{:U('index')}";
+                            },2000)
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: '提交失败，请重试', time: 2});
+                    }
+                })
+            }
+        }
+    });
+</script>
+</body>
+</html>

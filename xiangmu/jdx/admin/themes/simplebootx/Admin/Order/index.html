@@ -1,0 +1,382 @@
+<admintpl file="header"/>
+<style type="text/css">
+    #detailModal {
+        width: 900px;
+        margin-left: -480px;
+    }
+    .mgt-10 {
+        margin-bottom: 10px
+    }
+</style>
+<script src="__PUBLIC__/js/vue.js"></script>
+
+</head>
+<body>
+<div class="wrap" id="order-app">
+    <form class="well form-search form-inline">
+        <div class="mgt-10">
+            预约单号：
+            <input type="text" class="" name="order_no" v-model="search.order_no" placeholder="预约单号">&nbsp;&nbsp;
+            预约昵称：
+            <input type="text" style="width: 200px;" v-model="search.nickname" placeholder="预约昵称">&nbsp;&nbsp;
+            预约电话：
+            <input type="text"  style="width: 200px;" v-model="search.tel" placeholder="预约电话">&nbsp;&nbsp;
+            &nbsp;
+        </div>
+        <div class="mgt-10">
+            支付方式：
+            <select v-model="search.payway">
+                <option value="">全部</option>
+                <option value="wxpay">微信支付</option>
+                <option value="moneypay">会员卡支付</option>
+            </select>&nbsp;&nbsp;
+            所属店铺：
+            <select v-model="search.store">
+                <option value="0" selected>全部</option>
+                <volist name="stores" id="store">
+                    <option value="{$store.id}">{$store.name}</option>
+                </volist>
+            </select>&nbsp;&nbsp;
+            预约理发师：
+            <input v-model="search.barber" maxlength="10" type="text" placeholder="理发师姓名">&nbsp;&nbsp;
+        </div>
+        <div class="mgt-10">
+            预约时间：
+            <input type="text" name="start_time" class="js-datetime" v-model="search.start_time" value="" autocomplete="off" placeholder="开始时间">&nbsp;-
+            <input type="text" class="js-datetime" name="end_time" v-model="search.end_time" value="" autocomplete="off" placeholder="结束时间"> &nbsp;
+            <a class="btn btn-default btn-small" @click="setToday">今天</a><a class="btn btn-default btn-small" @click="setThisWeek">近一周</a><a @click="setThisMonth" class="btn btn-default btn-small">本月</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="button" class="btn btn-primary" @click="mySearch" value="查询">
+            <input type="button" class="btn btn-success" @click="export" value="导出">
+        </div>
+    </form>
+    <ul class="nav nav-pills">
+        <li v-for="status in orderStatus" :class="{'active':status.isActive }">
+            <a href="javascript:;" @click="statusClickFun(status)">{{status.text}}</a>
+        </li>
+    </ul>
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <th>预约单号</th>
+            <th>预约昵称</th>
+            <th>预约电话</th>
+            <th>预约理发师</th>
+            <th>所属店铺</th>
+            <th>支付方式</th>
+            <th style="width: 150px">服务类型</th>
+            <th>预约时间</th>
+            <th>应付金额</th>
+            <th>优惠金额</th>
+            <th>实际支付</th>
+            <th>状态</th>
+            <th>支付时间</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="order in orderList">
+            <td>{{order.order_id}}</td>
+            <td>{{order.nickname}}</td>
+            <td>{{order.tel}}</td>
+            <td>{{order.barber_name}}</td>
+            <td>{{order.store_name}}</td>
+            <td>{{order.pay_name}}</td>
+            <td>{{order.service_name}}</td>
+            <td>{{order.service_time}}</td>
+            <td>{{order.total_price}}</td>
+            <td>{{order.coupon_money}}</td>
+            <td>{{order.pay_price}}</td>
+            <td>{{order.status | formatStatus}}</td>
+            <td>{{order.pay_success_time}}</td>
+            <td>
+                <a class="btn btn-primary btn-small" href="javascript:;" @click="detail(order.order_id)">详情</a>
+                <a v-if="order.status==1 && order.service_lock==0" class="btn btn-info btn-small" href="javascript:;" @click="editStatusShow(order.order_id,order.status)">更改状态</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+
+    <div id="detailModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>订单详情</h3>
+        </div>
+        <div class="modal-body">
+            <div class="page-header">
+                <div class="row-fluid">
+                    <div class="span2 text-right">预约单号：</div>
+                    <div class="span3 text-left">{{orderDetail.order_id}}</div>
+                    <div class="span2 text-right">服务状态：</div>
+                    <div class="span3 text-left">{{orderDetail.status | formatStatus}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">预约昵称：</div>
+                    <div class="span3 text-left">{{orderDetail.nickname}}</div>
+                    <div class="span2 text-right">预约电话：</div>
+                    <div class="span5 text-left">{{orderDetail.tel}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">所属店铺：</div>
+                    <div class="span3 text-left">{{orderDetail.store_name}}</div>
+                    <div class="span2 text-right">预约理发师：</div>
+                    <div class="span5 text-left">{{orderDetail.barber_name}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">服务类型：</div>
+                    <div class="span3 text-left">{{orderDetail.service_name}}</div>
+                    <div class="span2 text-right">应付金额：</div>
+                    <div class="span3 text-left">{{orderDetail.total_price}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">实际支付：</div>
+                    <div class="span3 text-left">{{orderDetail.pay_price}}</div>
+                    <div class="span2 text-right">优惠码支付：</div>
+                    <div class="span3 text-left">{{orderDetail.coupon_money}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">支付方式：</div>
+                    <div class="span3 text-left">{{orderDetail.pay_name}}</div>
+                    <div class="span2 text-right">预约时间：</div>
+                    <div class="span3 text-left">{{orderDetail.service_time}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">支付时间：</div>
+                    <div class="span3 text-left">{{orderDetail.pay_success_time}}</div>
+                    <div class="span2 text-right">服务开始时间：</div>
+                    <div class="span3 text-left">{{orderDetail.service_start_time}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span2 text-right">服务结束时间：</div>
+                    <div class="span3 text-left">{{orderDetail.service_end_time}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="editStatusModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>更改订单状态</h3>
+        </div>
+        <div class="modal-body">
+            <div class="page-header">
+                <div class="row-fluid">
+                    <div class="span4 text-right">订单编号：</div>
+                    <div class="span4 text-center">{{editStatus.orderId}}</div>
+                </div>
+                <div class="row-fluid">
+                    <div class="span4 text-right">更改状态：</div>
+                    <div class="span4 text-center">
+                        <select v-model="editStatus.editStatus">
+                            <option v-for="item in status[editStatus.nowStatus]" :value="item.value">{{item.text}}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-center">
+            <button class="btn" @click="editStatusCancel">取消</button>
+            <button class="btn btn-success" @click="editStatusSubmit">确认修改</button>
+        </div>
+    </div>
+</div>
+
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script src="__PUBLIC__/js/common.js"></script>
+<script>
+    Wind.use("artDialog", function () {
+    });
+    var demo = new Vue({
+        el: '#order-app',
+        data: {
+            orderList: null,
+            orderStatus: [
+                {text: '全部', value: 100, isActive: true},
+                {text: '未服务', value: 1, isActive: false},
+                {text: '已完成', value: 2, isActive: false},
+                {text: '已关闭', value: 0, isActive: false},
+                {text: '已失效', value: 3, isActive: false}
+            ],
+            pagerConf: {
+                totalPage: 0,
+                currPage: 1,
+                prevShow: 3,
+                nextShow: 3,
+                pageRange: []
+            },
+            search: {order_no: '', keyword: '',payway:'', store:'',barber:"{:I('barber','')}",start_time: null, end_time: null, p: 1, status: 100},
+            orderDetail: {},
+            editStatus: {
+                orderId: 0,
+                nowStatus: "",
+                editStatus: ""
+            },
+            status: {
+                1: [{text: '已关闭', value: 0}, {text: '已完成', value: 2}]
+            }
+        },
+        watch: {
+            'pagerConf.currPage': function () {
+                this.getData();
+            },
+        },
+        methods: {
+            getData: function (from) {
+                var data = this.search;
+                data.p = from == undefined ? this.pagerConf.currPage : 1;
+                $.getJSON("{:U('index')}", data, function (res) {
+                    if (res.status == 1) {
+                        demo.orderList = res.info.data;
+                        demo.pagerConf.totalPage = res.info.count;
+                    } else {
+                        alert(res.info);
+                    }
+                })
+            },
+            export:function () {
+                var data = this.search;
+                sendPost("{:U('exportOrder')}",data);
+            },
+            mySearch: function () {
+                if(this.pagerConf.currPage==1){
+                    this.getData('search');
+                }else{
+                    this.pagerConf.currPage=1
+                }
+
+            },
+            statusClickFun: function (statusObj) {
+                for (i in this.orderStatus) {
+                    if (this.orderStatus[i].value == statusObj.value) {
+                        this.orderStatus[i].isActive = true;
+                    } else {
+                        this.orderStatus[i].isActive = false;
+                    }
+                }
+                this.search.status = statusObj.value;
+                this.getData('status');
+            },
+            detail: function (id) {
+                $.getJSON("{:U('detail')}", {id: id}, function (res) {
+                    if (res.status == 1) {
+                        demo.orderDetail = res.detail;
+                        $('#detailModal').modal('show');
+                    } else if (res.status == 0) {
+                        $.dialog({id: 'popup', lock: true, content: res.info, time: 2});
+                    } else {
+                        $.dialog({id: 'popup', lock: true, content: '获取订单信息失败', time: 2});
+                    }
+                })
+            },
+            editStatusShow: function (orderId, status) {
+                if (orderId == 0) {
+                    $.dialog({id: 'popup', lock: true, content: "订单不存在", time: 2});
+                    return;
+                }
+                this.editStatus.orderId = orderId;
+                this.editStatus.nowStatus = status;
+                $('#editStatusModal').modal('show');
+            },
+            editStatusCancel: function () {
+                this.editStatus.orderId = 0;
+                this.editStatus.nowStatus = "";
+                this.editStatus.editStatus = "";
+                $('#editStatusModal').modal('hide');
+            },
+            editStatusSubmit: function () {
+                var msg = "您确定要更改吗？";
+                $.dialog({
+                    id: 'popup', lock: true, content: msg, cancel: true, ok: function () {
+                        var data = demo.editStatus;
+                        if (data.orderId == 0) {
+                            $.dialog({id: 'popup', lock: true, content: "订单不存在", time: 2});
+                        }
+                        if (data.nowStatus == "" && data.editStatus == "") {
+                            $.dialog({id: 'popup', lock: true, content: "请选择要更改的状态", time: 2});
+                        }
+                        $.getJSON("{:U('edit_status')}", data, function (res) {
+                            $.dialog({id: 'popup', lock: true, content: res.info, time: 2});
+                            if (res.status == 1) {
+                                setTimeout(function () {
+                                    demo.getData();
+                                    $('#editStatusModal').modal('hide');
+                                }, 2000)
+                            }
+                        })
+                    }
+                })
+            },
+            setToday:function () {
+                this.search.start_time = new Date().Format("yyyy-MM-dd 00:00:00");
+                this.search.end_time = new Date().Format("yyyy-MM-dd 23:59:59")
+            },
+            setThisWeek:function () {
+                var startObj = new Date();
+                var endObj = new Date();
+                var num = startObj.getDate()-7;
+                startObj.setDate(num);
+                this.search.start_time = startObj.Format("yyyy-MM-dd 00:00:00");
+                this.search.end_time = endObj.Format("yyyy-MM-dd 23:59:59")
+            },
+            setThisMonth:function () {
+                var startObj = new Date();
+                startObj.setDate(1);
+                var endObj = new Date();
+                endObj.setMonth(startObj.getMonth()+1);
+                endObj.setDate(0);
+                this.search.start_time = startObj.Format("yyyy-MM-dd 00:00:00");
+                this.search.end_time = endObj.Format("yyyy-MM-dd 23:59:59")
+            }
+        },
+        filters: {
+            formatStatus: function (val) {
+                for (i in this.orderStatus) {
+                    if (this.orderStatus[i].value == val) {
+                        return this.orderStatus[i].text
+                    }
+                }
+            }
+        },
+        created: function () {
+            this.getData();
+        }
+    })
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "h+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    function sendPost(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.target="_blank"
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+</script>
+</body>
+</html>

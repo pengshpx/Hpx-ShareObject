@@ -1,0 +1,92 @@
+<admintpl file="header" />
+</head>
+<body>
+<div class="wrap js-check-wrap" id="app">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:U('index')}">日志列表</a></li>
+    </ul>
+    <form class="well form-search" id="search_form" method="post">
+        操作人：
+        <input type="text" class="input" v-model="searchCon.user_login" style="width: 200px;" placeholder="操作人">
+        操作时间：
+        <input type="text" v-model="searchCon.st_time" class="input js-datetime date" autocomplete="off" placeholder="开始时间">-
+        <input type="text" v-model="searchCon.end_time" class="input js-datetime date" autocomplete="off" placeholder="结束时间">
+        <input type="button" class="btn btn-primary" @click="mySearch(true)" value="搜索">
+    </form>
+    <table class="table table-hover table-bordered table-list">
+        <thead>
+        <tr>
+            <th width="10%">ID</th>
+            <th width="15%">操作人</th>
+            <th width="50%">内容</th>
+            <th width="25%">操作时间</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-cloak v-for="item in list">
+            <td>{{item.id}}</td>
+            <td>{{item.user_login}}</td>
+            <td>{{item.remark}}</td>
+            <td>{{item.create_time}}</td>
+        </tr>
+        </tbody>
+    </table>
+    <vue-pager :conf.sync="pagerConf"></vue-pager>
+</div>
+<script src="__PUBLIC__/js/common.js"></script>
+<script src="__PUBLIC__/js/vue.js"></script>
+<script src="__PUBLIC__/js/vueComponent/pager.js"></script>
+<script type="text/javascript">
+    Wind.use("artDialog", function () {});
+    var app = new Vue({
+        el:"#app",
+        data:{
+            list:[],
+            searchCon:{user_login:'',st_time:'',end_time:'',p:1},
+            pagerConf:{
+                totalPage : 0,
+                currPage : 1,
+                prevShow : 3,
+                nextShow : 3,
+                pageRange:[]
+            }
+        },
+        watch:{
+            'pagerConf.currPage':function () {
+                this.mySearch(false);
+            }
+        },
+        methods:{
+            mySearch: function (search) {
+                var data = this.searchCon;
+                if (data.st_time!='' && data.end_time!='') {
+                    if (data.st_time > data.end_time) {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "开始时间不能大于结束时间", time: 2});
+                        return;
+                    }
+                }
+                data.p = search == true ? 1 : this.pagerConf.currPage;
+                $.ajax({
+                    url:"{:U('index')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    success: function (res) {
+                        if (res.status == 1) {
+                            app.list = res.list;
+                            app.pagerConf.totalPage = res.totalPage;
+                        }
+                    },
+                    error: function () {
+                        $.dialog({id: 'popup', lock: true,icon:"warning", content: "请求失败,请重试", time: 2});
+                    }
+                })
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+</script>
+</body>
+</html>

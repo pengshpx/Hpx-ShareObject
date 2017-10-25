@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html class="back-black">
+<head>
+	<meta charset="utf-8">
+	<title>CUTMAN男士理发</title>
+	<meta name="keywords" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<!--分享使用-->
+	<meta itemprop="name" content="" />
+	<meta itemprop="description" name="description" content="" />
+	<meta itemprop="image" content="img_url" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/global.css">
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/font-awesome.min.css" />
+	<link rel="stylesheet" href="__TMPL__Public/css/my_css.6.21.css" />
+	<link rel="stylesheet" type="text/css" href="__TMPL__Public/css/style.css" />
+	<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="__TMPL__Public/lib/con_js.6.23.js" ></script>
+</head>
+<body class="back-black text-center" id="app">
+	<div class="q-header q-header-color1">
+		<a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+	</div>
+	<div class="bod-pad">
+		<div class="return_money back-222 p_both10">
+			<p><span>退回金额：</span><input type="text" :value="order.refund+'元'" readonly/></p>
+			<p v-if="order.pay_code=='moneypay'"><span>退款方式：</span><input type="text" value="退回到会员卡余额" readonly/></p>
+			<p v-if="order.pay_code=='wxpay'"><span>退款方式：</span><input type="text" value="工作人员联系退款"  readonly/></p>
+		</div>	
+	</div>
+	<div class="look">
+	     <a href="javascript:;" @click="orderCancel(order.order_id)" class="border-gold color-gold hgt35 l-h-35 p_both5 radius4 font16 inline_div button_active">确认取消订单</a>
+	</div>
+</body>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script type="text/javascript">
+	var app = new Vue({
+		el: "#app",
+		data: {
+			order:{$order}
+		},
+		methods: {
+			orderCancel: function (orderId) {
+				layer.open({
+					content: '确认取消订单？',
+					btn: ['确认', '取消'],
+					shadeClose: false,
+					yes: function(){
+						var loadingIndex = 0;
+						$.ajax({
+							url:"{:U('orderCancel')}",
+							data:{orderId:orderId},
+							type:"POST",
+							dataType:"json",
+							beforeSend: function () {
+								loadingIndex = layer.open({type:2,shadeClose:false});
+							},
+							success: function (res) {
+								layer.open({content:res.info,time:3,shadeClose:false});
+								if (res.status == 1) {
+									setTimeout(function () {
+										location.href = "{:U('Order/index')}/status/1";
+									},2000)
+								}
+							},
+							error: function () {
+								layer.open({content:"请求失败，请重试",time:3});
+							},
+							complete: function () {
+								layer.close(loadingIndex);
+							}
+						})
+					}
+				});
+			}
+		}
+	});
+</script>
+</html>

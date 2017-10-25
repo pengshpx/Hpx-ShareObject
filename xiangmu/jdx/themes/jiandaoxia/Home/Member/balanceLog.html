@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html class="back-black">
+<head>
+    <tc_include file="Public:header"/>
+    <link rel="stylesheet" href="__TMPL__/Public/css/my_css.6.21.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/Public/css/style.css" />
+    <script type="text/javascript" src="__TMPL__/Public/lib/con_js.6.23.js" ></script>
+</head>
+<body class="back-black" id="app">
+<div class="q-header q-header-color1">
+    <a href="javascript:history.back();" class="q-pull-left"><i class="fa fa-angle-left"></i></a>
+    <span class="q-title">超剪卡明细</span>
+</div>
+<section class="bod-pad">
+    <div class="member_cart p_both10 b-b-333 back-222">
+        <ul>
+            <li v-cloak v-for="item in list" class="font0">
+                <div class="text-left  text-left">
+                    <h4>{{item.type}}</h4>
+                    <p>{{item.time}}</p>
+                </div>
+                <div class="text-right ">
+                    <h4>{{item.change}}</h4>
+                    <p>{{item.now}}元</p>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>
+<p @click="mySearch(false)" class="m-t-30 hgt30 text-center">{{loadContent}}</p>
+</body>
+<script src="http://apps.bdimg.com/libs/vue/1.0.8/vue.min.js"></script>
+<script src="__TMPL__Public/layer/layer.js"></script>
+<script type="text/javascript">
+    var app = new Vue({
+        el: "#app",
+        data: {
+            list:[],
+            searchCon:{
+                p:1
+            },
+            pageConf:{
+                currPage:0,
+                totalPages:0
+            },
+            loadContent:"加载更多"
+        },
+        methods: {
+            mySearch: function (search) {
+                if (search == false && this.pageConf.currPage == this.pageConf.totalPages) {
+                    return;
+                }
+                var data = this.searchCon;
+                data.p = search == true ? 1 : this.pageConf.currPage+1;
+                var loadingIndex = 0;
+                $.ajax({
+                    url:"{:U('balanceLog')}",
+                    data:data,
+                    type:"POST",
+                    dataType:"json",
+                    beforeSend: function () {
+                        loadingIndex = layer.open({type:2,shadeClose:false});
+                    },
+                    success: function (res) {
+                        if (res.info.list) {
+                            app.list = app.list.concat(res.info.list);
+                            app.pageConf.totalPages = res.info.totalPages;
+                            app.pageConf.currPage += 1;
+                            if (app.pageConf.currPage == app.pageConf.totalPages) {
+                                app.loadContent = "加载完毕";
+                            }
+                            if (res.info.list.length == 0) {
+                                app.pageConf.totalPages = data.p;
+                                app.loadContent = "加载完毕";
+                            }
+                        }
+                    },
+                    error: function () {
+                        layer.open({content:"请求失败，请重试",time:3});
+                    },
+                    complete: function () {
+                        layer.close(loadingIndex);
+                    }
+                })
+            }
+        },
+        created: function () {
+            this.mySearch(true);
+        }
+    });
+</script>
+</html>
